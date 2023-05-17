@@ -1,6 +1,6 @@
 const Cat = require('../models/catModel');
 const qs = require('querystring');
-const { readFile, catTemplate, getPostData} = require('../utils');
+const { readFile, catTemplate, deleteData } = require('../utils');
 const url = require('url');
 
 
@@ -9,7 +9,7 @@ async function getCats(req, res) {
 
         const cats = await Cat.findAll();
         const homePage = await readFile('./views/home.html');
-        const catsHtml = cats.map(cat => catTemplate(cat)).join('');
+        const catsHtml = cats.map(cat => catTemplate(cat, './views/partials/cats.html')).join('');
         const result = homePage.replace('{{cats}}', catsHtml);
         res.writeHead(200, { 'content-type': 'text/html' });
         res.write(result);
@@ -19,6 +19,7 @@ async function getCats(req, res) {
     }
 }
 
+
 async function getCat(req, res, id) {
     try {
         const cat = await Cat.findById(id);
@@ -26,8 +27,10 @@ async function getCat(req, res, id) {
         if (cat) {
 
             const editCatHtml = await readFile('./views/editCat.html');
+            const result = editCatHtml.replace('{{cat}}', catTemplate(cat, './views/partials/cat.html'));
+            const addBreed = await Cat.updateBreed(result);
             res.writeHead(200, { 'content-type': 'text/html' });
-            res.write(editCatHtml);
+            res.write(addBreed);
             res.end();
         } else {
             res.writeHead(404, { 'content-type': 'text/html' });
@@ -41,42 +44,37 @@ async function getCat(req, res, id) {
 
 async function createCat(req, res) {
     const urlObj = url.parse(req.url, true);
-        
-        const name = urlObj.query.name;
-        console.log(name);
-        console.log(name);
-    try {
+    const newCat = {
+        name: urlObj.query.name,
+        description: urlObj.query.description,
+        image: urlObj.query.upload,
+        breed: urlObj.query.breed
+    };
 
-        // const body = await getPostData(req);
-        // console.log(body);
-        // const { name, breed, image, description } = getFormData(body);
-        // const cat = {
-        //     name,
-        //     breed,
-        //     image,
-        //     description,
-        // };
-       
-        const urlObj = url.parse(req.url, true);
-        
-        const name = urlObj.query.name;
-        console.log(name);
-        console.log(name);
+    await Cat.create(newCat);
 
-        // const newCat = await Cat.create(cat);
-        // console.log(newCat);
-        // res.writeHead(201, { 'content-type': 'application/json' });
-        // console.log(JSON.stringify(newCat));
-        // return res.end(JSON.stringify(newCat));
-
-
-    } catch (error) {
-        // console.log(error);
-    }
 }
+
+async function addBreed(req,res){
+    const urlObj = url.parse(req.url, true);
+    const newBreed = {breedName: urlObj.query.breed};
+    console.log(urlObj);
+    console.log(newBreed);
+
+    await Cat.breed(newBreed);
+}
+
+// async function deleteAndUpdate(res, filename, catId) {
+//     await Cat.deleteCat(filename, catId);
+
+//     res.writeHead(301, { 'Location': '/' });
+//     res.end();
+
+// }
 
 module.exports = {
     getCats,
     getCat,
     createCat,
+    addBreed,
 };
