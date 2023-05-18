@@ -1,6 +1,6 @@
 const Cat = require('../models/catModel');
 const qs = require('querystring');
-const { readFile, catTemplate, deleteData } = require('../utils');
+const { readFile, catTemplate, } = require('../utils');
 const url = require('url');
 
 
@@ -23,7 +23,6 @@ async function getCats(req, res) {
 async function getCat(req, res, id) {
     try {
         const cat = await Cat.findById(id);
-        console.log(cat);
         if (cat) {
 
             const editCatHtml = await readFile('./views/editCat.html');
@@ -42,7 +41,7 @@ async function getCat(req, res, id) {
     }
 }
 
-async function createCat(req, res) {
+async function createAndUpdateCat(req, res,catId) {
     const urlObj = url.parse(req.url, true);
     const newCat = {
         name: urlObj.query.name,
@@ -50,31 +49,50 @@ async function createCat(req, res) {
         image: urlObj.query.upload,
         breed: urlObj.query.breed
     };
-
-    await Cat.create(newCat);
-
+    console.log(urlObj);
+    if(catId != undefined){
+        await Cat.updatedCat(newCat,catId);
+    }else{
+        await Cat.create(newCat);
+    }
 }
 
-async function addBreed(req,res){
+async function addBreed(req, res) {
     const urlObj = url.parse(req.url, true);
-    const newBreed = {breedName: urlObj.query.breed};
-    console.log(urlObj);
-    console.log(newBreed);
+    const newBreed = { breedName: urlObj.query.breed };
 
     await Cat.breed(newBreed);
 }
 
-// async function deleteAndUpdate(res, filename, catId) {
-//     await Cat.deleteCat(filename, catId);
+async function search(req, res) {
+    const urlObj = url.parse(req.url, true);
+    const search = urlObj.query.text;
+    const homePage = await readFile('./views/home.html');
 
-//     res.writeHead(301, { 'Location': '/' });
-//     res.end();
+    try {
+        const filteredCats = await Cat.searchCats(search);
+        let result;
 
-// }
+        if (filteredCats) {
+            const catsHtml = filteredCats.map(cat => catTemplate(cat, './views/partials/cats.html')).join('');
+            result = homePage.replace('{{cats}}', catsHtml);
+        } else {
+            result = homePage.replace('{{cats}}', `There are no cats with the name ${search}`);
+        }
+
+        res.writeHead(200, { 'content-type': 'text/html' });
+        res.write(result);
+        res.end();
+
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 module.exports = {
     getCats,
     getCat,
-    createCat,
+    createAndUpdateCat,
     addBreed,
+    search,
 };
