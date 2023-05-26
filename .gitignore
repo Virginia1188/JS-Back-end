@@ -1,0 +1,46 @@
+
+CatShelter with Express/node_modules/.bin/glob
+*.cmd
+*.ps1
+CatShelter with Express/node_modules/.bin/handlebars
+CatShelter with Express/node_modules/.bin/mime
+CatShelter with Express/node_modules/.bin/node-which
+CatShelter with Express/node_modules/.bin/nodemon
+CatShelter with Express/node_modules/.bin/nopt
+CatShelter with Express/node_modules/.bin/semver
+CatShelter with Express/node_modules/.bin/uglifyjs
+CatShelter with Express/node_modules/.package-lock.json
+CatShelter with Express/node_modules/.bin/nodetouch
+*.cjs
+*.cts
+CatShelter with Express/node_modules/@isaacs/cliui/build/lib/index.js
+*.mjs
+CatShelter with Express/node_modules/@pkgjs/parseargs/internal/errors.js
+CatShelter with Express/node_modules/@pkgjs/parseargs/index.js
+CatShelter with Express/node_modules/@pkgjs/parseargs/internal/primordials.js
+CatShelter with Express/node_modules/@pkgjs/parseargs/internal/util.js
+CatShelter with Express/node_modules/@pkgjs/parseargs/internal/validators.js
+CatShelter with Express/node_modules/@pkgjs/parseargs/LICENSE
+CatShelter with Express/node_modules/@pkgjs/parseargs/package.json
+CatShelter with Express/node_modules/@pkgjs/parseargs/README.md
+CatShelter with Express/node_modules/@pkgjs/parseargs/utils.js
+CatShelter with Express/node_modules/abbrev/abbrev.js
+CatShelter with Express/node_modules/abbrev/LICENSE
+CatShelter with Express/node_modules/abbrev/package.json
+CatShelter with Express/node_modules/abbrev/README.md
+CatShelter with Express/node_modules/accepts/HISTORY.md
+CatShelter with Express/node_modules/accepts/index.js
+CatShelter with Express/node_modules/accepts/LICENSE
+CatShelter with Express/node_modules/accepts/package.json
+CatShelter with Express/node_modules/accepts/README.md
+CatShelter with Express/node_modules/ansi-regex/index.d.ts
+CatShelter with Express/node_modules/ansi-regex/license
+CatShelter with Express/node_modules/ansi-regex/package.json
+CatShelter with Express/node_modules/@pkgjs/parseargs/CHANGELOG.md
+CatShelter with Express/node_modules/@pkgjs/parseargs/examples/is-default-value.js
+CatShelter with Express/node_modules/@pkgjs/parseargs/examples/limit-long-syntax.js
+CatShelter with Express/node_modules/@pkgjs/parseargs/examples/negate.js
+CatShelter with Express/node_modules/@pkgjs/parseargs/examples/no-repeated-options.js
+CatShelter with Express/node_modules/@pkgjs/parseargs/examples/simple-hard-coded.js
+CatShelter with Express/node_modules/ansi-regex/index.js
+CatShelter with Express/node_modules/ansi-regex/readme.md
