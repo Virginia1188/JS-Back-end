@@ -1,13 +1,13 @@
 const express = require('express');
 const handlebars = require('express-handlebars');
 const path = require('path');
+const expressConfig = require('./config/expressConfig');
 
 
 const app = express();
 const PORT = 5000;
 
-//express confing
-app.use(express.static(path.resolve(__dirname,'public')));
+expressConfig(app);
 
 app.engine('hbs',handlebars.engine({
     extname:'hbs',
@@ -21,4 +21,4 @@ app.get('/',(req,res)=>{
 });
 
 
-app.listen(PORT, ()=>console.log(`Server is running on port ${PORT}...`));
+app.listen(PORT, () => console.log(`Server is running on port ${PORT}...`));
