@@ -1,9 +1,13 @@
 const express = require('express');
 const handlebars = require('express-handlebars');
+const path = require('path');
 
 
 const app = express();
 const PORT = 5000;
+
+//express confing
+app.use(express.static(path.resolve(__dirname,'public')));
 
 app.engine('hbs',handlebars.engine({
     extname:'hbs',
