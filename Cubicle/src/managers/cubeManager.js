@@ -1,14 +1,15 @@
 const cubes = [];
-
+const uniqId = require('uniqid');
 exports.getAll = ()=> cubes.slice();
 
 exports.create = (cubeData)=> {
     const newCube = {
-        id: cubes.length +1,
+        id: uniqId(),
         ...cubeData,
     };
-    // console.log(newCube);
+    
     cubes.push(newCube);
     return newCube;
 
 };
+
