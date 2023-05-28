@@ -15,9 +15,4 @@ app.use(homeController);
 
 
 
-
-
-
-
-
-app.listen(port,()=> console.log(`Express running on port: ${port}...`));
+app.listen(port, () => console.log(`Express running on port: ${port}...`));
