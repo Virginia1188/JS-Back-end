@@ -1,6 +1,15 @@
-const utils = require('../utils');
+const router = require('express').Router();
 
-async function getAllCats(req,res){
-    const data = JSON.parse(utils.readFile('../cats.json'));
-    const template = require('../view');
-}
+router.get('/add-cat', (req,res)=>{
+    res.render('addCat');
+});
+
+router.get('/delete:catId', (req,res)=>{
+    
+});
+
+router.get('/edit:catId', (req,res)=>{
+    res.render('editCat');
+});
+
+module.exports = router;
