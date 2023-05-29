@@ -8,7 +8,14 @@ const catSchema = new mongoose.Schema({
 
 });
 
-
+catSchema.statics.findAll = async function(){
+    try {
+        const cats = await Cat.find().lean();
+        return cats;
+    } catch (error) {
+        console.log(error);
+    }
+};
 catSchema.statics.addCat = async function(catData){
     try {
         const newCat = new this(catData);
@@ -17,6 +24,10 @@ catSchema.statics.addCat = async function(catData){
         console.log(error);
     }
 };
+
+// catSchema.statics.deleteCat = async function(){
+
+// };
 
 const Cat = mongoose.model('Cat',catSchema);
 
