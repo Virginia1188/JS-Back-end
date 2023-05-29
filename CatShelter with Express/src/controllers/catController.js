@@ -11,12 +11,14 @@ router.post('/add-cat', async (req,res)=>{
     res.redirect('/');
 });
 
-router.get('/delete:catId', (req,res)=>{
+router.get('/delete/:catId', (req,res)=>{
     
 });
 
-router.get('/edit:catId', (req,res)=>{
-    res.render('editCat');
+router.get('/edit/:catId', async (req,res)=>{
+    const catId = req.params.catId;
+    const cat = await Cat.findById(catId).lean();
+    res.render('editCat', {cat});
 });
 
 module.exports = router;
