@@ -1,4 +1,5 @@
 const express = require('express');
+const connectDB = require('./models/db');
 
 const expressConfig = require('./config/expressConfig');
 const handlebarsConfig = require('./config/handlebarsConfig');
@@ -11,6 +12,7 @@ const port = 5000;
 
 expressConfig(app);
 handlebarsConfig(app);
+connectDB();
 
 app.use(homeController);
 app.use('/cats',catController);
