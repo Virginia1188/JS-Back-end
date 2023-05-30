@@ -1,17 +1,11 @@
 const Cube = require('../models/Cube');
 
-const cubes = [
-    {
-        id: '1ugewj22p8li6f6e35',
-        name: 'Eco-Dark',
-        description: 'Something, something',
-        imageUrl: 'https://thingsidesire.com/wp-content/uploads/2018/06/Eco-Dark-Rubik%E2%80%99s-Cube2.jpg',
-        difficultyLevel: 4
-    }
-];
-const uniqId = require('uniqid');
-exports.getAll = (search,from,to) => {
-    let result = cubes.slice();
+
+exports.getAll = async (search,from,to) => {
+    
+    let result = await Cube.find().lean();
+
+    //TO DO use mongoose to filter
     if(search){
         result = result.filter(cube => cube.name.toLowerCase().includes(search.toLowerCase()));
     }
@@ -30,5 +24,5 @@ exports.create = async (cubeData) => {
     return cube;
 };
 
-exports.getOne = (cubeId) => cubes.find(x=>x.id == cubeId);
+exports.getOne = (cubeId) => Cube.findById(cubeId).lean();
 
