@@ -1,3 +1,5 @@
+const Cube = require('../models/Cube');
+
 const cubes = [
     {
         id: '1ugewj22p8li6f6e35',
@@ -21,15 +23,11 @@ exports.getAll = (search,from,to) => {
     }
     return result;
 };
-exports.create = (cubeData) => {
-    const newCube = {
-        id: uniqId(),
-        ...cubeData,
-    };
 
-    cubes.push(newCube);
-    return newCube;
-
+exports.create = async (cubeData) => {
+    const cube = new Cube(cubeData);
+    await cube.save();
+    return cube;
 };
 
 exports.getOne = (cubeId) => cubes.find(x=>x.id == cubeId);
