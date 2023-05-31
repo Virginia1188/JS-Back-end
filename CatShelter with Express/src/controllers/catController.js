@@ -1,12 +1,16 @@
 const router = require('express').Router();
 const catManager = require('../managers/catManager');
+const breedManager = require('../managers/breedManager');
 
-router.get('/add-cat', (req, res) => {
-    res.render('addCat');
+router.get('/add-cat', async (req, res) => {
+    const breeds = await breedManager.findAll().lean();
+    console.log(breeds);
+    res.render('addCat',{breeds});
 });
 
 router.post('/add-cat', async (req, res) => {
     const { name, description, image, breed } = req.body;
+    
     await catManager.addCat({ name, description, image, breed });
     res.redirect('/');
 });
