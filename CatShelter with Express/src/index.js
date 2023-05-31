@@ -1,5 +1,5 @@
 const express = require('express');
-const connectDB = require('./models/db');
+const connectDB = require('./config/dbConfig');
 
 const expressConfig = require('./config/expressConfig');
 const handlebarsConfig = require('./config/handlebarsConfig');
