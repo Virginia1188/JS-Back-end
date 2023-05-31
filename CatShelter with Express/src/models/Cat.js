@@ -17,19 +17,23 @@ catSchema.statics.findAll = async function(){
     }
 };
 
-// catSchema.statics.findOneById = async function(catId){
-//     try {
-//         const cat = await Cat.findById(catId);
-//         return cat;
-//     } catch (error) {
-//         console.log(error);
-//     }
-// };
 
 catSchema.statics.addCat = async function(catData){
     try {
         const newCat = new this(catData);
         await newCat.save();
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+catSchema.statics.updateCat = async function(catId, catData){
+    try {
+        const updatedCat = await Cat.findByIdAndUpdate(
+            catId,
+            catData,
+            {new: true}
+        );
     } catch (error) {
         console.log(error);
     }
