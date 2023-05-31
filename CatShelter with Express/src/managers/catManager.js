@@ -25,3 +25,7 @@ exports.findAll = () => {
 exports.findOneById = (catId)=>{
     return Cat.findById(catId);
 };
+
+exports.deleteCat = (catId) =>{
+    return Cat.deleteOne({_id:catId});
+};

@@ -17,6 +17,11 @@ router.get('/delete/:catId', async (req, res) => {
     res.render('catShelter', { cat });
 });
 
+router.post('/delete/:catId', async (req, res) => {
+    const catId = req.params.catId;
+    console.log(catId);
+    await catManager.deleteCat(catId);
+    res.redirect('/');
 });
 
 router.get('/edit/:catId', async (req, res) => {
