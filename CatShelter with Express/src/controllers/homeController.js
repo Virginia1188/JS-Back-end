@@ -1,10 +1,8 @@
 const router = require('express').Router();
-const Cat = require('../models/Cat');
-
-// const cats = require('../../cats.json');
+const catManager = require('../managers/catManager');
 
 router.get('/', async (req, res) => {
-    const cats = await Cat.findAll();
+    const cats = await catManager.findAll().lean();
     res.render('home', { cats });
 });
 
