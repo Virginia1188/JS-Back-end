@@ -6,5 +6,8 @@ router.get('/', async (req, res) => {
     res.render('home', { cats });
 });
 
+router.get('/add-breed', (req,res)=>{
+    res.render('addBreed');
+});
 
 module.exports = router;
