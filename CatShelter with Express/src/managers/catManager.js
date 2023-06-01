@@ -12,15 +12,13 @@ exports.updatedCat = async (catId, { name, description, image, breed }) => {
             name: name,
             description: description,
             image: image,
-            breed: breed
+            breeds: breed
         },
         { new: true }
     );
 };
 
-exports.findAll = () => {
-    return Cat.find();  
-};
+exports.findAll = () => Cat.find();
 
 exports.findOneById = (catId)=>{
     return Cat.findById(catId);

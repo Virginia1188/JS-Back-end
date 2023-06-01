@@ -10,7 +10,7 @@ router.get('/add-cat', async (req, res) => {
 
 router.post('/add-cat', async (req, res) => {
     const { name, description, image, breed } = req.body;
-    
+    console.log({ name, description, image, breed });
     await catManager.addCat({ name, description, image, breed });
     res.redirect('/');
 });
