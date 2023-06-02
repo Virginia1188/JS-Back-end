@@ -13,11 +13,11 @@ router.get('/logout', (req, res) => {
     res.render('auth/logout');
 });
 
-router.post('auth/register', async (req, res) => {
+router.post('/register', async (req, res) => {
     const { username, password, repeatPassword } = req.body;
 
     if (password !== repeatPassword) {
-        return res.status(404).end();
+        return res.redirect('404');
     }
 
     const existingUser = await authManager.getUseByUsername(username);
@@ -27,7 +27,9 @@ router.post('auth/register', async (req, res) => {
     }
 
     const user = await authManager.register(username, password);
+    console.log(user);
 
+    res.redirect('/login');
 });
 
 module.exports = router;
