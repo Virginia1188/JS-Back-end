@@ -31,7 +31,9 @@ router.post('/delete/:catId', async (req, res) => {
 router.get('/edit/:catId', async (req, res) => {
     const catId = req.params.catId;
     const cat = await catManager.findOneById(catId).lean();
-    res.render('editCat', { cat });
+    const breeds = await breedManager.findAll().lean();
+
+    res.render('editCat', { cat, breeds });
 });
 
 router.post('/edit/:catId', async (req, res) => {
