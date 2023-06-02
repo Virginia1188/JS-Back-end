@@ -5,6 +5,14 @@ router.get('/login', (req, res) => {
     res.render('auth/login');
 });
 
+router.post('/login', async (req, res) => {
+    const { username, password } = req.body;
+
+    const user = await authManager.login(username, password);
+    console.log(user);
+    res.redirect('/');
+});
+
 router.get('/register', (req, res) => {
     res.render('auth/register');
 });
@@ -27,7 +35,6 @@ router.post('/register', async (req, res) => {
     }
 
     const user = await authManager.register(username, password);
-    console.log(user);
 
     res.redirect('/login');
 });
