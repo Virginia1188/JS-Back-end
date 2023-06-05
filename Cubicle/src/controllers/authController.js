@@ -8,8 +8,8 @@ router.get('/login', (req, res) => {
 router.post('/login', async (req, res) => {
     const { username, password } = req.body;
 
-    const user = await authManager.login(username, password);
-    console.log(user);
+    const token = await authManager.login(username, password);
+    console.log(token);
     res.redirect('/');
 });
 

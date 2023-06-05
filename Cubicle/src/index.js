@@ -3,7 +3,7 @@ const cookieParser = require('cookie-parser');
 
 const expressConfig = require('./config/expressConfig');
 const handlebarsConfig = require('./config/handlebarsConfig');
-const dbConnect = require('./config/dbConfig');
+const dbConfig = require('./config/dbConfig');
 const routes = require('./routes');
 
 
@@ -15,7 +15,7 @@ handlebarsConfig(app);
 
 app.use(cookieParser());
 
-dbConnect()
+dbConfig.dbConnect()
     .then(() => console.log('DB Connected successfully'))
     .catch(err => console.log('DB Error:', err));
 
