@@ -1,12 +1,18 @@
 const router = require('express').Router();
 const cubeManager = require('../managers/cubeManager');
 const accessoryManager = require('../managers/accessoryManager');
+const jwt = require('../lib/jwt');
+const dbConfig = require('../config/dbConfig');
 
 router.get('/create', (req, res) => {
+    console.log(req.user);
     res.render('create');
 });
 
 router.post('/create', async (req, res) => {
+
+  
+
     const { name, description, imageUrl, difficultyLevel } = req.body;
     //add validation
     await cubeManager.create({
@@ -33,15 +39,15 @@ router.get('/:cubeId/attach-accessory', async (req, res) => {
     const accessories = await accessoryManager.getAvailable(cube.accessories).lean();
 
     const hasAccessories = accessories.length > 0;
-    
+
     res.render('accessory/attach', { cube, accessories, hasAccessories });
 });
 
-router.post('/:cubeId/attach-accessory', async (req,res)=>{
-    const {accessory:accessoryId} = req.body;
+router.post('/:cubeId/attach-accessory', async (req, res) => {
+    const { accessory: accessoryId } = req.body;
     const cubeId = req.params.cubeId;
 
-    await cubeManager.attachAccessory(cubeId,accessoryId);
+    await cubeManager.attachAccessory(cubeId, accessoryId);
     res.redirect(`/cubes/${cubeId}/details`);
 });
 

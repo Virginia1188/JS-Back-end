@@ -5,6 +5,7 @@ const expressConfig = require('./config/expressConfig');
 const handlebarsConfig = require('./config/handlebarsConfig');
 const dbConfig = require('./config/dbConfig');
 const routes = require('./routes');
+const auth = require('./middlewares/authMiddleware');
 
 
 const app = express();
@@ -14,6 +15,7 @@ expressConfig(app);
 handlebarsConfig(app);
 
 app.use(cookieParser());
+app.use(auth.authentication);
 
 dbConfig.dbConnect()
     .then(() => console.log('DB Connected successfully'))
