@@ -1,17 +1,14 @@
 const router = require('express').Router();
 const cubeManager = require('../managers/cubeManager');
 const accessoryManager = require('../managers/accessoryManager');
-const jwt = require('../lib/jwt');
-const dbConfig = require('../config/dbConfig');
+const { isAuthenticated, authentication} = require('../middlewares/authMiddleware');
 
-router.get('/create', (req, res) => {
+router.get('/create', isAuthenticated, (req, res) => {
     console.log(req.user);
     res.render('create');
 });
 
-router.post('/create', async (req, res) => {
-
-  
+router.post('/create', isAuthenticated, async (req, res) => {
 
     const { name, description, imageUrl, difficultyLevel } = req.body;
     //add validation
