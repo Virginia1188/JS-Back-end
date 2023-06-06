@@ -18,16 +18,13 @@ router.get('/register', (req, res) => {
     res.render('auth/register');
 });
 
-router.get('/logout', (req, res) => {
-    res.render('auth/logout');
-});
 
 router.post('/register', async (req, res) => {
     const { username, password, repeatPassword } = req.body;
 
-    if (password !== repeatPassword) {
-        return res.redirect('404');
-    }
+    // if (password !== repeatPassword) {
+    //     return res.redirect('404');
+    // }
 
     const existingUser = await authManager.getUseByUsername(username);
 
@@ -35,9 +32,13 @@ router.post('/register', async (req, res) => {
         return res.status(404).end();
     }
 
-    const user = await authManager.register(username, password);
+    const user = await authManager.register(username, password, repeatPassword);
 
-    res.redirect('/login');
+    res.redirect('/users/login');
+});
+
+router.get('/logout', (req, res) => {
+    res.render('/');
 });
 
 module.exports = router;

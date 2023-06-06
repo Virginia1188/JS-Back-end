@@ -5,7 +5,7 @@ const jwt = require('../lib/jwt');
 
 exports.getUseByUsername = (username) => User.findOne({ username });
 
-exports.register = (username, password) => User.create({ username, password });
+exports.register = (username, password, repeatPassword) => User.create({ username, password,repeatPassword });
 
 exports.login = async (username, password) => {
     const user = await this.getUseByUsername(username);
