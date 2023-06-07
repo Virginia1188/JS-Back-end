@@ -1,14 +1,13 @@
 const router = require('express').Router();
 const cubeManager = require('../managers/cubeManager');
 const accessoryManager = require('../managers/accessoryManager');
-const { isAuthenticated, authentication } = require('../middlewares/authMiddleware');
 const { getDifficultyOptionsViewData } = require('../utils/viewHelpers');
 
-router.get('/create', isAuthenticated, (req, res) => {
+router.get('/create', (req, res) => {
     res.render('cube/create');
 });
 
-router.post('/create', isAuthenticated, async (req, res) => {
+router.post('/create', async (req, res) => {
 
     const { name, description, imageUrl, difficultyLevel } = req.body;
     //add validation
