@@ -4,7 +4,6 @@ const accessoryManager = require('../managers/accessoryManager');
 const { isAuthenticated, authentication} = require('../middlewares/authMiddleware');
 
 router.get('/create', isAuthenticated, (req, res) => {
-    console.log(req.user);
     res.render('create');
 });
 

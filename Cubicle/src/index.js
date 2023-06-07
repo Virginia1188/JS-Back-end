@@ -14,7 +14,6 @@ const PORT = 5000;
 expressConfig(app);
 handlebarsConfig(app);
 
-app.use(cookieParser());
 app.use(auth.authentication);
 
 dbConfig.dbConnect()

@@ -5,7 +5,8 @@ const jwt = require('../lib/jwt');
 
 exports.getUseByUsername = (username) => User.findOne({ username });
 
-exports.register = (username, password, repeatPassword) => User.create({ username, password,repeatPassword });
+exports.register = (username, password, repeatPassword) => 
+    User.create({ username, password,repeatPassword });
 
 exports.login = async (username, password) => {
     const user = await this.getUseByUsername(username);
@@ -16,8 +17,11 @@ exports.login = async (username, password) => {
         throw 'Invalid username or password!';
     }
 
-    const payload = { username: user.username };
-    const token = await jwt.sign(payload, dbConfig.SECRET, { expiresIn: '2h' });
+    const payload = { 
+        _id: user._id,
+        username: user.username 
+    };
+    const token = await jwt.sign(payload, dbConfig.SECRET, { expiresIn: '1d' });
 
     return token;
 };
