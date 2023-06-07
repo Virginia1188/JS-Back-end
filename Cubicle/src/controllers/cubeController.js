@@ -1,10 +1,10 @@
 const router = require('express').Router();
 const cubeManager = require('../managers/cubeManager');
 const accessoryManager = require('../managers/accessoryManager');
-const { isAuthenticated, authentication} = require('../middlewares/authMiddleware');
+const { isAuthenticated, authentication } = require('../middlewares/authMiddleware');
 
 router.get('/create', isAuthenticated, (req, res) => {
-    res.render('create');
+    res.render('cube/create');
 });
 
 router.post('/create', isAuthenticated, async (req, res) => {
@@ -16,7 +16,7 @@ router.post('/create', isAuthenticated, async (req, res) => {
         description,
         imageUrl,
         difficultyLevel: Number(difficultyLevel),
-        owner: req.user._id
+        owner: req.user._id,
     });
     res.redirect('/');
 });
@@ -28,7 +28,7 @@ router.get('/:cubeId/details', async (req, res) => {
     if (!cube) {
         return res.redirect('/404');
     }
-    res.render('details', { cube, });
+    res.render('cube/details', { cube, });
 });
 
 router.get('/:cubeId/attach-accessory', async (req, res) => {
@@ -46,6 +46,11 @@ router.post('/:cubeId/attach-accessory', async (req, res) => {
 
     await cubeManager.attachAccessory(cubeId, accessoryId);
     res.redirect(`/cubes/${cubeId}/details`);
+});
+
+router.get('/:cubeId/delete', async (req, res) => {
+    const cube = await cubeManager.getOne(req.params.cubeId).lean();
+    res.render('cube/delete', { cube });
 });
 
 
