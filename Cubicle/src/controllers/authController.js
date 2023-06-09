@@ -8,9 +8,15 @@ router.get('/login', (req, res) => {
 
 router.post('/login', async (req, res) => {
     const { username, password } = req.body;
-    const token = await authManager.login(username, password);
-    res.cookie('auth', token, { httpOnly: true });
-    res.redirect('/');
+    try {
+        const token = await authManager.login(username, password);
+        res.cookie('auth', token, { httpOnly: true });
+        res.redirect('/');
+    } catch (error) {
+        const errorMessages = extractErrorMessages(error);
+        res.status(404).render('auth/login', { errorMessage: errorMessages });
+    }
+
 });
 
 router.get('/register', (req, res) => {
