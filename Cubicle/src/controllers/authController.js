@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const authManager = require('../managers/authManager');
+const { extractErrorMessages } = require('../utils/errorHelpers');
 
 router.get('/login', (req, res) => {
     res.render('auth/login');
@@ -20,19 +21,15 @@ router.get('/register', (req, res) => {
 router.post('/register', async (req, res) => {
     const { username, password, repeatPassword } = req.body;
 
-    // if (password !== repeatPassword) {
-    //     return res.redirect('404');
-    // }
+    try {
+        const user = await authManager.register(username, password, repeatPassword);
+        res.redirect('/users/login');
 
-    const existingUser = await authManager.getUseByUsername(username);
-
-    if (existingUser) {
-        return res.status(404).end();
+    } catch (error) {
+        const errorMessages = extractErrorMessages(error);
+        res.status(404).render('auth/register', { errorMessage: errorMessages });
     }
 
-    const user = await authManager.register(username, password, repeatPassword);
-
-    res.redirect('/users/login');
 });
 
 router.get('/logout', (req, res) => {
