@@ -1,6 +1,7 @@
 <main>
     <section class="crypto-market">
         <h1><span>Crypto</span> Trade</h1>
+        {{#if isOffer}}
         <div class="offer-list">
             {{#each offers}}
             <div class="coin">
@@ -13,7 +14,7 @@
                     <p><span>Payment: </span>{{payment}}</p>
                 </div>
 
-                <a href="/crypto/deatils/{{_id}}" class="btn-details">Details</a>
+                <a href="/crypto/details/{{_id}}" class="btn-details">Details</a>
             </div>
             {{/each}}
 
@@ -43,8 +44,11 @@
             </div> --}}
 
         </div>
-        <!-- <div class="no-offer">
-                <p>There are no crypto offers found!</p>
-            </div> -->
+        {{else}}
+        <div class="no-offer">
+            <p>There are no crypto offers found!</p>
+        </div>
+        {{/if}}
+        
     </section>
 </main>
