@@ -1,12 +1,14 @@
 const router = require('express').Router();
 const homeController = require('./controllers/homeController');
 const userController = require('./controllers/userController');
+const cryptoController = require('./controllers/cryptoController');
 const { authentication } = require('./middleswares/authMiddleware');
 
 
 router.use(authentication);
 router.use(homeController);
-router.use('/auth', userController);
+router.use('/users', userController);
+router.use('/crypto', cryptoController);
 
 router.get('*', (req,res)=>{
     res.redirect('/404');
