@@ -20,8 +20,10 @@ router.post('/create', async (req, res) => {
 
 });
 
-router.get('/catalog', (req, res) => {
-    res.render('crypto/catalog');
+router.get('/catalog', async (req, res) => {
+    const offers = await cryptoManager.getAllOffers().lean();
+
+    res.render('crypto/catalog', {offers});
 });
 
 module.exports = router;

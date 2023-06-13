@@ -2,19 +2,22 @@
     <section class="crypto-market">
         <h1><span>Crypto</span> Trade</h1>
         <div class="offer-list">
+            {{#each offers}}
             <div class="coin">
                 <div class="coin-img">
-                    <img src="/images/ethereum.png">
+                    <img src="{{image}}">
                 </div>
                 <div class="coin-info">
-                    <h1>Ethereum</h1>
-                    <p><span>Price: </span>$2,338.55</p>
-                    <p><span>Payment: </span>debit-card</p>
+                    <h1>{{name}}</h1>
+                    <p><span>Price: </span>{{price}}</p>
+                    <p><span>Payment: </span>{{payment}}</p>
                 </div>
 
-                <a href="#" class="btn-details">Details</a>
+                <a href="/crypto/deatils/{{_id}}" class="btn-details">Details</a>
             </div>
-            <div class="coin">
+            {{/each}}
+
+            {{!-- <div class="coin">
                 <div class="coin-img">
                     <img src="/images/dogecoin.png">
                 </div>
@@ -37,7 +40,7 @@
                 </div>
 
                 <a href="#" class="btn-details">Details</a>
-            </div>
+            </div> --}}
 
         </div>
         <!-- <div class="no-offer">
