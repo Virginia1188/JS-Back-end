@@ -1,0 +1,4 @@
+const Crypto = require('../models/Crypto');
+
+exports.create = (name, image, price, description, payment, owner) =>
+    Crypto.create({ name, image, price, description, payment, owner });
