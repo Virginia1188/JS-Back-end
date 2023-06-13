@@ -13,18 +13,21 @@
                 <p id="description">{{offer.description}}</p>
             </div>
             <div class="product-btn">
-                {{#if userStatus.isOwner}}
+                {{#if offer.isOwner}}
                 <!--Only for registered user and author of the publication -->
                <div class="author">
                         <a href="/crypto/edit/{{offer._id}}" class="btn-edit">Edit</a>
                         <a href="/crypto/delete/{{offer._id}}" class="btn-delete">Delete</a>
                     </div> 
-                {{else if  userStatus.user}}
+                {{else}}
+
                 <!-- Logged in user who has not yet buy this crypto-->
-                <a href="/crypto/buy/{{offer._id}}" class="btn-buy">Buy</a> 
-                {{else if userStatus.hasBought}}
+                    {{#unless offer.hasBought}}
+                    <a href="/crypto/buy/{{offer._id}}" class="btn-buy">Buy</a> 
+                    {{else}}
                 <!-- Logged in user who has already buy this crypto-->
-                <p class="buy-message">You already bought these crypto coins.</p>
+                    <p class="buy-message">You already bought these crypto coins.</p>
+                    {{/unless}}
                 {{/if}}
             </div>
         </div>

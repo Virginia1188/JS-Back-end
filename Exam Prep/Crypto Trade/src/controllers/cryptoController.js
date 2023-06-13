@@ -41,19 +41,33 @@ router.get('/catalog', async (req, res) => {
 router.get('/details/:cryptoId', async (req,res)=>{
     console.log(req.params.cryptoId);
 
-    const offer = await cryptoManager.findById(req.params.cryptoId).lean();
+    try {
+        const offer = await cryptoManager.findById(req.params.cryptoId).lean();
 
-    if(!req.user){
-        return res.render('crypto/details', {offer});
+        if(!req.user){
+            return res.render('crypto/details', {offer});
+        }
+        offer.isOwner = req.user._id == offer.owner._id;
+        offer.hasBought = await cryptoManager.hasBought(offer._id,req.user._id);
+        console.log(offer.hasBought);
+    
+        res.render('crypto/details', {offer});
+
+    } catch (error) {
+        console.log(error);
+        res.render('404');
+        // TODO error handling
     }
 
-    const userStatus = {
-        user: req.user._id ? true: false,
-        isOwner: offer.owner?.toString() == req.user._id? true: false,
-        hasBought: offer.buyers.includes(req.user._id) ? true : false,
-    };
-
-    res.render('crypto/details', {offer, userStatus});
 });
+
+router.get('/buy/:cryptoId', async (req,res)=>{
+    const offer = await cryptoManager.findById(req.params.cryptoId).lean();
+    const userId = req.user._id;
+    const bougth = await cryptoManager.buyCrypto(offer, userId);
+    res.redirect(`/crypto/details/${offer._id}`);
+});
+
+
 
 module.exports = router;
