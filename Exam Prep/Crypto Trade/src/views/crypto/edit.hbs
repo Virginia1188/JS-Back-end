@@ -10,22 +10,26 @@
     <section id="edit-container">
         <div class="edit-container-info">
             <h1>Edit Announcement</h1>
-            <form action="#" method="">
+            <form method="POST">
                 <label>Name:</label>
-                <input type="text" id="name" name="name" value="Bitcoin">
+                <input type="text" id="name" name="name" value="{{offer.name}}">
                 <label>Image:</label>
-                <input type="text" id="image" name="image" value="https://bitcoin.org/img/icons/opengraph.png?1651392467">
+                <input type="text" id="image" name="image"
+                    value="{{offer.image}}">
                 <label>Price:</label>
-                <input type="number" id="price" name="price" value="31166.71">
+                <input type="number" id="price" name="price" value="{{offer.price}}">
                 <label>Description:</label>
                 <textarea name="description"
-                    id="description">Bitcoin is a decentralized digital currency that can be transferred on the peer-to-peer bitcoin network.</textarea>
+                    id="description">{{offer.description}}</textarea>
                 <label>Payment method:</label>
                 <select id="payment" name="payment">
-                    <option value="crypto-wallet">Crypto Wallet</option>
-                    <option value="credit-card">Credit Card</option>
-                    <option value="debit-card">Debit Card</option>
-                    <option value="paypal" selected>PayPal</option>
+                    {{#each options}}
+                    <option value="{{value}}" {{#if selected}} selected{{/if}}>{{title}}</option>
+                    {{/each}}
+                    {{!-- <option value="crypto-wallet" {{#if (equal offer.payment 'crypto wallet')}} selected{{/if}}>Crypto Wallet</option>
+                    <option value="credit-card" {{#if (equal offer.payment 'credit-card')}} selected{{/if}}>Credit Card</option>
+                    <option value="debit-card" {{#if (equal offer.payment 'debit-card')}} selected{{/if}}>Debit Card</option>
+                    <option value="paypal" {{#if (equal offer.payment 'paypal')}} selected{{/if}}selected>PayPal</option> --}}
                 </select>
                 <input type="submit" id="btn" value="EDIT"></input>
             </form>

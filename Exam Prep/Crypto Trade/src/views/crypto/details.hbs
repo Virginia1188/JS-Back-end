@@ -12,24 +12,27 @@
                 <p id="price"><span>Price: {{offer.price}}</span></p>
                 <p id="description">{{offer.description}}</p>
             </div>
+            {{#if offer.isLogged}}
             <div class="product-btn">
                 {{#if offer.isOwner}}
                 <!--Only for registered user and author of the publication -->
-               <div class="author">
-                        <a href="/crypto/edit/{{offer._id}}" class="btn-edit">Edit</a>
-                        <a href="/crypto/delete/{{offer._id}}" class="btn-delete">Delete</a>
-                    </div> 
+                <div class="author">
+                    <a href="/crypto/edit/{{offer._id}}" class="btn-edit">Edit</a>
+                    <a href="/crypto/delete/{{offer._id}}" class="btn-delete">Delete</a>
+                </div>
                 {{else}}
 
                 <!-- Logged in user who has not yet buy this crypto-->
-                    {{#unless offer.hasBought}}
-                    <a href="/crypto/buy/{{offer._id}}" class="btn-buy">Buy</a> 
-                    {{else}}
+                {{#if offer.hasBought}}
+                <p class="buy-message">You already bought these crypto coins.</p>
+                
+                {{else}}
                 <!-- Logged in user who has already buy this crypto-->
-                    <p class="buy-message">You already bought these crypto coins.</p>
-                    {{/unless}}
+                <a href="/crypto/buy/{{offer._id}}" class="btn-buy">Buy</a>
+                {{/if}}
                 {{/if}}
             </div>
+            {{/if}}
         </div>
     </section>
 </main>
