@@ -13,15 +13,15 @@ const cryptoSchema = new mongoose.Schema({
         type: Number,
         required: [true, 'Price is required']
     },
-    'crypto description': {
+    description: {
         type: String,
         required: [true, 'Description is required']
     },
-    'payment method': {
+    payment: {
         type: String,
         required: [true, 'Payment metod is required']
     },
-    'buy a crypto': [{
+    buyers: [{
         type: mongoose.Types.ObjectId,
         ref: 'User'
     }],
