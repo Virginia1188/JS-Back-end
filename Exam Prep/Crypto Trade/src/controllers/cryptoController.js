@@ -85,11 +85,27 @@ router.get('/delete/:cryptoId', isAuth, async (req,res)=>{
 });
 
 router.get('/edit/:cryptoId', isAuth, async (req,res)=>{
-    const offer = await cryptoManager.findById(req.params.cryptoId).lean();
+    try {
+        const offer = await cryptoManager.findById(req.params.cryptoId).lean();
     
-    const options = getPeymentOptions(offer.payment);
-    console.log(options);
-    res.render('crypto/edit', {offer, options});
+        const options = getPeymentOptions(offer.payment);
+        console.log(options);
+        res.render('crypto/edit', {offer, options});
+    } catch (error) {
+        
+    }
+});
+
+router.post('/edit/:cryptoId', async (req,res)=>{
+
+    try {
+        const cryptoData = req.body;
+        const cryptoId = req.params.cryptoId;
+        await cryptoManager.update(cryptoId, cryptoData);
+        res.redirect(`/crypto/details/${cryptoId}`);
+    } catch (error) {
+        
+    }
 });
 
 module.exports = router;

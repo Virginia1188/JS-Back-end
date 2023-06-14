@@ -12,3 +12,5 @@ exports.buyCrypto = (offer, userId) =>Crypto.findByIdAndUpdate(offer._id, {$push
 exports.hasBought = (offerId, userId) => Crypto.findOne({ _id: offerId, buyers: { $in: [userId] } });
 
 exports.deleteCrypto = (offerId) => Crypto.findByIdAndDelete(offerId);
+
+exports.update = (cryptoId, cryptoData) => Crypto.findByIdAndUpdate(cryptoId, cryptoData);

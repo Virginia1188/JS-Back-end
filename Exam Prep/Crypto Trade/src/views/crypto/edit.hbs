@@ -26,10 +26,6 @@
                     {{#each options}}
                     <option value="{{value}}" {{#if selected}} selected{{/if}}>{{title}}</option>
                     {{/each}}
-                    {{!-- <option value="crypto-wallet" {{#if (equal offer.payment 'crypto wallet')}} selected{{/if}}>Crypto Wallet</option>
-                    <option value="credit-card" {{#if (equal offer.payment 'credit-card')}} selected{{/if}}>Credit Card</option>
-                    <option value="debit-card" {{#if (equal offer.payment 'debit-card')}} selected{{/if}}>Debit Card</option>
-                    <option value="paypal" {{#if (equal offer.payment 'paypal')}} selected{{/if}}selected>PayPal</option> --}}
                 </select>
                 <input type="submit" id="btn" value="EDIT"></input>
             </form>
