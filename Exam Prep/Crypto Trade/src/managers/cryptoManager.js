@@ -13,4 +13,4 @@ exports.hasBought = (offerId, userId) => Crypto.findOne({ _id: offerId, buyers: 
 
 exports.deleteCrypto = (offerId) => Crypto.findByIdAndDelete(offerId);
 
-exports.update = (cryptoId, cryptoData) => Crypto.findByIdAndUpdate(cryptoId, cryptoData);
+exports.update = (cryptoId, cryptoData) => Crypto.findByIdAndUpdate(cryptoId, cryptoData, {runValidators:true});

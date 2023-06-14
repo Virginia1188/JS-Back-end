@@ -97,14 +97,15 @@ router.get('/edit/:cryptoId', isAuth, async (req,res)=>{
 });
 
 router.post('/edit/:cryptoId', async (req,res)=>{
-
+    const offer = req.body;
+    const cryptoId = req.params.cryptoId;
     try {
-        const cryptoData = req.body;
-        const cryptoId = req.params.cryptoId;
-        await cryptoManager.update(cryptoId, cryptoData);
+
+        await cryptoManager.update(cryptoId, offer);
         res.redirect(`/crypto/details/${cryptoId}`);
     } catch (error) {
-        
+        const options = getPeymentOptions(offer.payment);
+        res.status(400).render('crypto/edit',{offer,options, error: getErrorMessage(error) });
     }
 });
 
