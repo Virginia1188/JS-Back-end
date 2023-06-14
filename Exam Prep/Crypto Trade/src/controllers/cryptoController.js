@@ -25,7 +25,7 @@ router.post('/create', isAuth, async (req, res) => {
 
 router.get('/catalog', async (req, res) => {
     try {
-        const offers = await cryptoManager.getAllOffers().lean();
+        const offers = await cryptoManager.getAllOffers();
         let isOffer = true;
         if(offers.length === 0){
             isOffer = false;

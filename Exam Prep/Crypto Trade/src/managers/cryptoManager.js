@@ -3,7 +3,17 @@ const Crypto = require('../models/Crypto');
 exports.create = (name, image, price, description, payment, owner) =>
     Crypto.create({ name, image, price, description, payment, owner });
 
-exports.getAllOffers = () => Crypto.find();
+exports.getAllOffers = async(search,payment) => {
+   let offers = await Crypto.find().lean();
+
+   if(search){
+    offers = offers.filter(offer => offer.name.toLowerCase().includes(search.toLowerCase()));
+   }
+   if(payment){
+    offers = offers.filter(offer => offer.payment.toLocaleLowerCase() == payment.toLocaleLowerCase());
+   }
+   return offers;
+};
 
 exports.findById = (cryptoId) => Crypto.findById(cryptoId);
 
