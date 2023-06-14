@@ -41,4 +41,8 @@ router.post('/edit/:photoId', async (req,res)=>{
     res.redirect(`/photos/details/${photoId}`);
 });
 
+router.get('/delete/:photoId', async (req,res)=>{
+    await photoManager.delete(req.params.photoId);
+    res.redirect('/photos/catalog');
+});
 module.exports = router;

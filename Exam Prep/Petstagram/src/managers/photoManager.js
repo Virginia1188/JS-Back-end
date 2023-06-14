@@ -8,3 +8,5 @@ exports.create = (name, image, age, description, location, owner) =>
     Photo.create({name, image, age, description, location, owner});
 
 exports.update = (photoId, photoData) => Photo.findByIdAndUpdate(photoId, photoData, {runValidators: true});
+
+exports.delete = (photoId) => Photo.findByIdAndDelete(photoId);
