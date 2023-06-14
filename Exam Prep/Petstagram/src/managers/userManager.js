@@ -20,11 +20,11 @@ exports.register = async (username, email, password, repeatPassword) => {
         throw new Error(getErrorMessage(error));
     }
 
-    return this.login(email, password);
+    return this.login(username, password);
 };
 
-exports.login = async (email, password) => {
-    const user = await User.findOne({ email });
+exports.login = async (username, password) => {
+    const user = await User.findOne({ username });
     if (!user) {
         throw new Error('Invalid email or password');
     }
