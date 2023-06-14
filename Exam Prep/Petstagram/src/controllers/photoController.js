@@ -21,4 +21,10 @@ router.post('/create', async (req,res)=>{
     res.redirect('/photos/catalog');
 });
 
+router.get('/details/:photoId', async (req,res)=>{
+    const photo = await photoManager.getById(req.params.photoId).lean();
+
+    res.render('photos/details', {photo});
+});
+
 module.exports = router;
