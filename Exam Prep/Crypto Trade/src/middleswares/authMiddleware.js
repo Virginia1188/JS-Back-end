@@ -17,7 +17,7 @@ exports.authentication = async (req, res, next) => {
 
         } catch (error) {
             res.clearCookie('auth');
-            return res.status(401).render('/404');
+            return res.status(401).render('404');
         }
 
     }else{

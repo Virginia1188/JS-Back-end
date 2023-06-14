@@ -5,7 +5,7 @@ const {getErrorMessage} = require('../utils/errorUtils');
 const {getPeymentOptions} = require('../utils/viewHelpers');
 
 
-router.get('/create', (req, res) => {
+router.get('/create', isAuth, (req, res) => {
     res.render('crypto/create');
 });
 
@@ -18,7 +18,7 @@ router.post('/create', isAuth, async (req, res) => {
         res.redirect('/crypto/catalog');
 
     } catch (error) {
-        return res.status(404).render('crypto/create', { error: getErrorMessage(error) });
+        return res.status(404).render('crypto/catalog', { error: getErrorMessage(error) });
     }
 
 });
@@ -96,7 +96,7 @@ router.get('/edit/:cryptoId', isAuth, async (req,res)=>{
     }
 });
 
-router.post('/edit/:cryptoId', async (req,res)=>{
+router.post('/edit/:cryptoId', isAuth, async (req,res)=>{
     const offer = req.body;
     const cryptoId = req.params.cryptoId;
     try {
