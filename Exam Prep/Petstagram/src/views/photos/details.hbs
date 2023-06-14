@@ -31,6 +31,7 @@
                             <span>{{photo.location}}</span>
 
                             <!-- IF the viewer is the creator of the photo -->
+                            {{#if photo.isOwner}}
                             <div class="edit-delete-btns">
 
                                 <!-- Edit Pet Photo -->
@@ -43,6 +44,7 @@
                                     <img class="bin-img" src="/images/icon-remove-22.jpg" alt="bin button">
                                 </a>
                             </div>
+                            {{/if}}
 
                         </h3>
                     </div>

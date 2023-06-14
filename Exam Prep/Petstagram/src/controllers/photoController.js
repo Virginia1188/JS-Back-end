@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const photoManager = require('../managers/photoManager');
-const userManager = require('../managers/userManager');
+const { isAuth } = require('../middleswares/authMiddleware');
+const {getErrorMessage} = require('../utils/errorUtils');
 
 router.get('/catalog', async (req,res)=>{
     const allPhotos = await photoManager.getAll().lean();
@@ -9,31 +10,47 @@ router.get('/catalog', async (req,res)=>{
 
 });
 
-router.get('/create', (req,res)=>{
+router.get('/create', isAuth, (req,res)=>{
     res.render('photos/create');
 });
 
-router.post('/create', async (req,res)=>{
-    const {name, image, age, description, location} = req.body;
-    const userId = req.user._id;
-    const created = await photoManager.create(name, image, age, description, location, userId);
+router.post('/create', isAuth, async (req,res)=>{
 
-    res.redirect('/photos/catalog');
+    try {
+        const {name, image, age, description, location} = req.body;
+        const userId = req.user._id;
+        const created = await photoManager.create(name, image, age, description, location, userId);
+    
+        res.redirect('/photos/catalog');
+    } catch (error) {
+        return res.status(404).render('photos/create', { error: getErrorMessage(error) });
+    }
 });
 
 router.get('/details/:photoId', async (req,res)=>{
-    const photo = await photoManager.getById(req.params.photoId).lean();
 
+   try {
+        
+    const photo = await photoManager.getById(req.params.photoId).lean();
+    if(req.user){
+        photo.isOwner = req.user._id == photo.owner;
+    }
     res.render('photos/details', {photo});
+
+   } catch (error) {
+    
+   }
+
+    
 });
 
-router.get('/edit/:photoId',async (req,res)=>{
+router.get('/edit/:photoId', isAuth, async (req,res)=>{
     const photo = await photoManager.getById(req.params.photoId).lean();
 
     res.render('photos/edit', {photo});
 });
 
-router.post('/edit/:photoId', async (req,res)=>{
+router.post('/edit/:photoId', isAuth, async (req,res)=>{
     const photoData = req.body;
     const photoId = req.params.photoId;
     await photoManager.update(photoId, photoData);
@@ -41,7 +58,7 @@ router.post('/edit/:photoId', async (req,res)=>{
     res.redirect(`/photos/details/${photoId}`);
 });
 
-router.get('/delete/:photoId', async (req,res)=>{
+router.get('/delete/:photoId', isAuth, async (req,res)=>{
     await photoManager.delete(req.params.photoId);
     res.redirect('/photos/catalog');
 });

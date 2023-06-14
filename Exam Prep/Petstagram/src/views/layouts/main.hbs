@@ -12,12 +12,13 @@
 
 <body>
     <!--Error Container-->
-
-    <!-- <div>
+    {{#if error}}
+    <div>
         <div class="errorContainer">
-            <p>Error</p>
+            <p>{{error}}</p>
         </div>
-    </div> -->
+    </div> 
+    {{/if}}
 
     <!-- Starts Header Section with Navigation Bar -->
     <header>
