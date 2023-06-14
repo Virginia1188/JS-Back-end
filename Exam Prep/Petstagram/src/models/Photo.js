@@ -21,7 +21,7 @@ const photoSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Location is required!'],
     },
-    comentList: [{
+    commentList: [{
         type: mongoose.Types.ObjectId,
         ref: 'User',
     }],
