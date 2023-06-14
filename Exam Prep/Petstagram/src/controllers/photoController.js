@@ -27,4 +27,18 @@ router.get('/details/:photoId', async (req,res)=>{
     res.render('photos/details', {photo});
 });
 
+router.get('/edit/:photoId',async (req,res)=>{
+    const photo = await photoManager.getById(req.params.photoId).lean();
+
+    res.render('photos/edit', {photo});
+});
+
+router.post('/edit/:photoId', async (req,res)=>{
+    const photoData = req.body;
+    const photoId = req.params.photoId;
+    await photoManager.update(photoId, photoData);
+
+    res.redirect(`/photos/details/${photoId}`);
+});
+
 module.exports = router;
