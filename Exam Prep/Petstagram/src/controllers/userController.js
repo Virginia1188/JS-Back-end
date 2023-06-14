@@ -45,6 +45,7 @@ router.get('/logout', isAuth, (req, res) => {
 });
 
 router.get('/profile',(req,res)=>{
+    //TODO add functionality
     res.render('users/profile');
 });
 
