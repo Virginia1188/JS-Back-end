@@ -24,12 +24,12 @@ exports.register = async (username, password, address) => {
 exports.login = async (username, password) => {
     const user = await User.findOne({ username });
     if (!user) {
-        throw new Error('Invalid email or password');
+        throw new Error('Invalid username ');
     }
     const isValid = await user.validatePassword(password);
 
     if (!isValid) {
-        throw new Error('Invalid email or password');
+        throw new Error('Invalid  password');
     }
 
     const payload = {

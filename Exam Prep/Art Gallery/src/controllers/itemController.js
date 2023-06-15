@@ -57,31 +57,32 @@ router.get('/details/:itemId', async (req, res) => {
 
 });
 
-// router.get('/edit/:photoId', isAuth, async (req, res) => {
+router.get('/edit/:itemId', isAuth, async (req, res) => {
 
-//     try {
-//         const item = await itemManager.getById(req.params.itemId).lean();
+    try {
+        const item = await itemManager.getById(req.params.itemId).lean();
 
-//         res.render('photos/edit', { item });
-//     } catch (error) {
-//         res.render('photos/details', { error: getErrorMessage(error) });
-//     }
+        res.render('art/edit', { item });
+    } catch (error) {
+        res.render('art/details', { error: getErrorMessage(error) });
+    }
 
-// });
+});
 
-// router.post('/edit/:photoId', isAuth, async (req, res) => {
-//     const itemData = req.body;
-//     const itemId = req.params.itemId;
+router.post('/edit/:itemId', isAuth, async (req, res) => {
+    const itemData = req.body;
+    const itemId = req.params.itemId;
+    console.log(itemData);
 
-//     try {
-//         await itemManager.update(itemId, itemData);
-//         res.redirect(`/photos/details/${itemId}`);
+    try {
+        await itemManager.update(itemId, itemData);
+        res.redirect(`/art/details/${itemId}`);
 
-//     } catch (error) {
-//         res.render('photos/edit', { error: getErrorMessage(error), itemData: itemData });
-//     }
+    } catch (error) {
+        res.render('art/edit', { error: getErrorMessage(error), itemData: itemData });
+    }
 
-// });
+});
 
 // router.get('/delete/:photoId', isAuth, async (req, res) => {
 //     try {
