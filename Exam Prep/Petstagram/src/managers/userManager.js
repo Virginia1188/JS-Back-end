@@ -6,7 +6,9 @@ const {getErrorMessage} = require('../utils/errorUtils');
 exports.findByUsername = (username) => User.findOne({ username });
 exports.findByEmail = (email) => User.findOne({ email });
 
-// TODO check user object and amend if nessecery 
+exports.findById = (userId) => User.findById(userId);
+
+
 exports.register = async (username, email, password, repeatPassword) => {
 
     const existingUser = await User.findOne({ username });
@@ -44,6 +46,8 @@ exports.login = async (username, password) => {
 
     return token;
 };
+
+
 
 
 

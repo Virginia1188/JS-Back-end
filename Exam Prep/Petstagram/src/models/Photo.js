@@ -4,14 +4,14 @@ const photoSchema = new mongoose.Schema({
     name: {
         type: String,
         required: [true, 'Name is required!'],
-        minLength: [2, 'Username is too Short!'],
+        minLength: [2, 'Name is too Short!'],
     },
     image: {
         type: String,
         required: [true, 'Image is required!'],
         validate: {
             validator: (value) => /^https?:\/\//gi.test(value),
-            message: 'The Crypto Image URL must start with http:// or https://',
+            message: 'The Photo Image URL must start with http:// or https://',
         }
     },
     age: {
@@ -32,14 +32,25 @@ const photoSchema = new mongoose.Schema({
         minLength: [5, 'Location is too short!'],
         maxLength: [50, 'Location is to long!']
     },
-    commentList: [{
-        type: mongoose.Types.ObjectId,
-        ref: 'User',
-    }],
+
     owner: {
         type: mongoose.Types.ObjectId,
         ref: 'User',
     },
+
+    comments: [
+        {
+            user: {
+                type: mongoose.Types.ObjectId,
+                required: true,
+                ref: 'User'
+            },
+            comment: {
+                type: String,
+                required: [true, 'Comment is required!']
+            }
+        }
+    ],
 });
 
 const Photo = mongoose.model('Photo', photoSchema);

@@ -1,7 +1,8 @@
 const router = require('express').Router();
 const userManager = require('../managers/userManager');
+const photoManager = require('../managers/photoManager');
 const { isAuth } = require('../middleswares/authMiddleware');
-const {getErrorMessage} = require('../utils/errorUtils');
+const { getErrorMessage } = require('../utils/errorUtils');
 
 router.get('/login', (req, res) => {
     res.render('users/login');
@@ -44,9 +45,16 @@ router.get('/logout', isAuth, (req, res) => {
     res.redirect('/');
 });
 
-router.get('/profile',(req,res)=>{
-    //TODO add functionality
-    res.render('users/profile');
+router.get('/profile', async (req, res) => {
+    try {
+        const user = req.user;
+        const photos = await photoManager.getByOwner(user._id).lean();
+        const noPhotos = photos.length > 0 ? false : true;
+        res.render('users/profile', { user, photos, noPhotos });
+    } catch (error) {
+        res.render('users/profile', { error: error.message });
+    }
+
 });
 
 
