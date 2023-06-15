@@ -1,4 +1,4 @@
-const Item = require('../models/Photo');
+const Item = require('../models/Item');
 const { getErrorMessage } = require('../utils/errorUtils');
 
 

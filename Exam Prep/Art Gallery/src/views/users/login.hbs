@@ -1,17 +1,29 @@
 <main>
-    <!-- In case of error, you should display div with class "errorContainer" -->
-    <!-- You can choose to display the first error or all of them (error message/s in your opinion) -->
 
+    <section id="login-container">
 
-    <div class="login-box">
-        <h1>Login</h1>
-        <form method="POST">
-            <label>Email</label>
-            <input type="text" name="email" placeholder="Email..">
-            <label>Password</label>
-            <input type="password" name="password" placeholder="Password..">
-            <input type="submit" value="Submit">
-        </form>
-        <p>Not have an account? <a href="#">Register here</a></p>
-    </div>
+        <div class="container">
+            <!-- Do not forget to change the path to the image -->
+            <img src="/img/slider.jpg" alt="image">
+
+            <form  method="POST" class="container-text">
+                <h2>Login</h2>
+                <p>Welcome, see the new masterpieces!</p>
+
+                <label for="username">Username:</label>
+                <input type="text" id="username" placeholder="ivan_00" name="username">
+
+                <label for="password">Password:</label>
+                <input type="password" id="password" placeholder="*****" name="password">
+
+                <button class="login-btn">Login</button>
+                <div class="card-no-account">
+                    <p>Don't have an account? <a href="/users/register">Sign up</a>.</p>
+                </div>
+
+            </form>
+        </div>
+
+    </section>
+
 </main>

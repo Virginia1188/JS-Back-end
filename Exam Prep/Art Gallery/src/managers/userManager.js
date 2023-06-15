@@ -4,10 +4,8 @@ const dbConfig = require('../config/dbConfig');
 const {getErrorMessage} = require('../utils/errorUtils');
 
 exports.findByUsername = (username) => User.findOne({ username });
-exports.findByEmail = (email) => User.findOne({ email });
 
-// TODO check user object and amend if nessecery 
-exports.register = async (username, email, password, repeatPassword) => {
+exports.register = async (username, password, address) => {
 
     const existingUser = await User.findOne({ username });
     if (existingUser) {
@@ -15,16 +13,16 @@ exports.register = async (username, email, password, repeatPassword) => {
     }
     
     try {
-        await User.create({ username, email, password, repeatPassword });
+        await User.create({ username, password, address});
     } catch (error) {
         throw new Error(getErrorMessage(error));
     }
 
-    return this.login(email, password);
+    return this.login(username, password);
 };
 
-exports.login = async (email, password) => {
-    const user = await User.findOne({ email });
+exports.login = async (username, password) => {
+    const user = await User.findOne({ username });
     if (!user) {
         throw new Error('Invalid email or password');
     }
@@ -36,7 +34,7 @@ exports.login = async (email, password) => {
 
     const payload = {
         _id: user._id,
-        email: user.email,
+        address: user.address,
         username: user.username,
     };
 

@@ -1,49 +1,51 @@
 const mongoose = require('mongoose');
 
 const itemSchema = new mongoose.Schema({
-    name: {
+    title: {
         type: String,
-        required: [true, 'Name is required!'],
-        minLength: [2, 'Name is too Short!'],
+        required: [true, 'Title is required!'],
+        // minLength: [2, 'Name is too Short!'],
+    },
+    painting: {
+        type: String,
+        required: [true, 'Painting technique is required!'],
+        // validate: {
+        //     validator: (value) => /^https?:\/\//gi.test(value),
+        //     message: 'The Photo Image URL must start with http:// or https://',
+        // }
     },
     image: {
         type: String,
         required: [true, 'Image is required!'],
-        validate: {
-            validator: (value) => /^https?:\/\//gi.test(value),
-            message: 'The Photo Image URL must start with http:// or https://',
-        }
+        // minLength: [1, 'Age is too short!'],
+        // maxLength: [100, 'Age is to long!']
     },
-    age: {
+    authenticity: {
         type: String,
-        required: [true, 'Age is required!'],
-        minLength: [1, 'Age is too short!'],
-        maxLength: [100, 'Age is to long!']
+        required: [true, 'Authenticity is required!'],
+        // minLength: [5, 'Description is too short!'],
+        // maxLength: [50, 'Description is to long!']
     },
-    description: {
-        type: String,
-        required: [true, 'Description is required!'],
-        minLength: [5, 'Description is too short!'],
-        maxLength: [50, 'Description is to long!']
-    },
-    location: {
-        type: String,
-        required: [true, 'Location is required!'],
-        minLength: [5, 'Location is too short!'],
-        maxLength: [50, 'Location is to long!']
-    },
-    price:{
-        type: Number,
-        required: [true, 'Price is required'],
-        validate: {
-            validator: (value) => value > 0,
-            message: 'The price must be a positive number!',
-        },
-    },
-    owner: {
+
+    author: {
         type: mongoose.Types.ObjectId,
         ref: 'User',
     },
+
+    shares: [
+        {
+            type: mongoose.Types.ObjectId,
+            ref: 'User',
+        }
+    ],
+    // price:{
+    //     type: Number,
+    //     required: [true, 'Price is required'],
+    //     validate: {
+    //         validator: (value) => value > 0,
+    //         message: 'The price must be a positive number!',
+    //     },
+    // },
 
     // payment: {
     //     type: String,

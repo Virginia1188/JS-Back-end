@@ -6,15 +6,23 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Username is required']
     },
-    email: {
-        type: String,
-        required: [true, 'Email is required']
-    },
+
     password: {
         type: String,
         required: [true, 'Password is required']
     },
 
+    address: {
+        type: String,
+        required: [true, 'Address is required']
+    },
+
+    publications: [
+        {
+            type: mongoose.Types.ObjectId,
+            ref: 'Item'
+        }
+    ],
 
 });
 
