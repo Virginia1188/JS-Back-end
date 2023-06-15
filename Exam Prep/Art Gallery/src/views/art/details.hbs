@@ -15,11 +15,15 @@
                     {{#if item.isOwner}}
                     <a href="/art/edit/{{item._id}}" class="btn-edit">Edit</a>
                     <a href="/art/delete/{{item._id}}" class="btn-delete">Delete</a>
-                    {{else if  item.user}}
-                    <!-- logged in user who has not yet shared the publication-->
-                    <a href="" class="btn-share">Share publication</a>
-                    <!-- logged in user who has already shared the publication-->
+                    {{else}}
+                    {{#if item.hasShared}}
+                     
                     <p class="shared-pub">You already shared this publication</p>
+                    {{else }}
+                    <!-- logged in user who has not yet shared the publication-->
+                   <a href="/art/share/{{item._id}}" class="btn-share">Share publication</a>
+                    <!-- logged in user who has already shared the publication-->
+                    {{/if}}
                     {{/if}}
                 </div>
 

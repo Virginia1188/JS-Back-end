@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const itemManager = require('../managers/itemManager');
+const userManager = require('../managers/userManager');
 const { isAuth } = require('../middleswares/authMiddleware');
 const { getErrorMessage } = require('../utils/errorUtils');
 
@@ -26,7 +27,7 @@ router.post('/create', isAuth, async (req, res) => {
         const { title, painting, image, authenticity } = req.body;
         const userId = req.user._id;
         const created = await itemManager.create(title, painting, image, authenticity, userId);
-
+        await userManager.addPublication(created._id, userId);
         res.redirect('/art/gallery');
     } catch (error) {
         return res.status(404).render('art/create', { error: getErrorMessage(error) });
@@ -38,19 +39,25 @@ router.get('/details/:itemId', async (req, res) => {
     try {
         // TODO shares
         const item = await itemManager.getById(req.params.itemId).lean();
-        // console.log(item);
+        const userId = req.user._id;
+        console.log(userId, item.author._id);
+        const itemShared = await itemManager.getShared(req.params.itemId, req.user._id);
         if (req.user) {
-            if (req.user._id == item.author._id) {
+            // console.log(hasShared);
+            if (userId == item.author._id) {
                 item.isOwner = true;
+            }else if(itemShared){
+                item.hasShared = !itemShared;
+            }else{
+                item.user = true;
             }
-
-            item.user = true;
+            
         }
     
         res.render('art/details', { item });
 
     } catch (error) {
-        console.log(error);
+        
         res.render('art/details', { error: 'Couldn\'t load details.', error });
     }
 
@@ -94,19 +101,18 @@ router.get('/delete/:itemId', isAuth, async (req, res) => {
 
 });
 
-// router.post('/post/:photoId', async (req, res) => {
-//     const user = req.user._id;
-//     const { comment } = req.body;
-//     const itemId = req.params.itemId;
-//     console.log({user, comment});
+router.get('/share/:itemId', async (req, res) => {
+    const userId = req.user._id;
+    const itemId = req.params.itemId;
+    console.log(userId, itemId);
+    try {
+        await itemManager.addUserShare(userId, itemId);
+        
+        res.redirect(`/art/details/${itemId}`);
+    } catch (error) {
+        res.render('art/details', { error: getErrorMessage(error) });
+    }
 
-//     try {
-//         await itemManager.addComment(itemId, { user, comment });
-//         res.redirect(`/photos/details/${itemId}`);
-//     } catch (error) {
-//         res.render('photos/details', { error: getErrorMessage(error) });
-//     }
-
-// });
+});
 
 module.exports = router;

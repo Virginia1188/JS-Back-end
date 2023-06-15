@@ -19,14 +19,27 @@ exports.update = async (itemId, itemData) => {
 
 exports.delete = (itemId) => Item.findByIdAndDelete(itemId);
 
-exports.getByOwner = (owner) => Item.find({ owner });
+exports.getShared = async (itemId, userId) =>{
+        const item = await Item.findOne( {_id: itemId, shares: {$in: [userId]}});
+       console.log(item);
+};
 
-exports.addComment = async (itemId, commentData) => {
+exports.addUserShare = async (userId, itemId) =>{
     try {
-        const photo = await Item.findById(itemId);
-        photo.comments.push(commentData);
-        return photo.save();
+        const item = await Item.findById(itemId);
+        item.shares.push(userId);
+        return item.save();
     } catch (error) {
         throw new Error(getErrorMessage(error));
     }
 };
+
+// exports.addComment = async (itemId, commentData) => {
+    // try {
+    //     const photo = await Item.findById(itemId);
+    //     photo.comments.push(commentData);
+    //     return photo.save();
+    // } catch (error) {
+    //     throw new Error(getErrorMessage(error));
+    // }
+// };

@@ -43,6 +43,16 @@ exports.login = async (username, password) => {
     return token;
 };
 
+exports.addPublication = async (itemId, userId) =>{
+    try {
+        const user = await User.findById(userId);
+        user.publications.push(itemId);
+        return user.save();
+    } catch (error) {
+        throw new Error(getErrorMessage(error));
+    }
+};
+
 
 
 
