@@ -9,9 +9,9 @@
 
     <!-- Browse Page -->
     <section id="catalog-section" class="spaced">
-{{#if isItem}}
-        <h1 class="item">Auctions</h1>
 
+        <h1 class="item">Auctions</h1>
+        {{#if allItems.isItem}}
         <!-- List of available auctions -->
 
         <ul class="catalog cards">
@@ -20,7 +20,7 @@
             {{/each}}
         </ul>
 
-{{else}}
+        {{else}}
         <!-- If there are no auctions to display -->
         <div class="item pad-large align-center">
             <p>Nothing has been listed yet. Be the first!</p>
@@ -28,7 +28,7 @@
                 <a class="action" href="/auction/create">Publish Auction</a>
             </div>
         </div>
-{{/if}}
+        {{/if}}
     </section>
 
 </main>

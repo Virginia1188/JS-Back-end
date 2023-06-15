@@ -2,11 +2,11 @@ const Item = require('../models/Item');
 const { getErrorMessage } = require('../utils/errorUtils');
 
 
-exports.getAll = () => Item.find().populate('owner');
+exports.getAll = () => Item.find();
 exports.getById = (itemId) => Item.findById(itemId).populate('owner');
 
-exports.create = (name, image, age, description, location, owner) =>
-    Item.create({ name, image, age, description, location, owner });
+exports.create = ( title, description, category, image, price , author) =>
+    Item.create({  title, description, category, image, price , author});
 
 exports.update = async (itemId, itemData) => {
     try {

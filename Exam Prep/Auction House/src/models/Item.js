@@ -15,7 +15,7 @@ const itemSchema = new mongoose.Schema({
         required: [true, 'Category is required!'],
         validate: {
             validator: (value) => {
-                const validValues = ['Vehicles', 'Real Estate', 'Electronics', 'Furniture', 'Other'];
+                const validValues = ['vehicles', 'estate', 'electronics', 'furniture', 'other'];
                 const index = validValues.findIndex(v => v.toLocaleLowerCase() === value.toLocaleLowerCase());
                 if (index !== -1) {
                     return validValues[index];

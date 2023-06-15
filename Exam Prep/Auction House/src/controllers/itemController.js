@@ -7,11 +7,11 @@ const { getErrorMessage } = require('../utils/errorUtils');
 router.get('/catalog', async (req, res) => {
     try {
         const allItems = await itemManager.getAll().lean();
-        let isItem = true;
-        if(allItems.length === 0){
-            isItem = false;
+       
+        if(allItems.length != 0){
+            allItems.isItem = true;
         }
-        res.render('auctions/browse', { allItems, isItem});
+        res.render('auctions/browse', { allItems});
     } catch (error) {
         res.render('auctions/browse', { error: 'Couldn\'t find photos.' });
     }
@@ -22,19 +22,20 @@ router.get('/create', isAuth, (req, res) => {
     res.render('auctions/create');
 });
 
-// router.post('/create', isAuth, async (req, res) => {
+router.post('/create', isAuth, async (req, res) => {
+    const { title, description, category, image, price } = req.body;
+    try {
+        // TODO chnage item obj
+        
+        console.log(req.body);
+        const userId = req.user._id;
+        const created = await itemManager.create( title, description, category, image, price , userId);
 
-//     try {
-//         // TODO chnage item obj
-//         const { name, image, age, description, location } = req.body;
-//         const userId = req.user._id;
-//         const created = await itemManager.create(name, image, age, description, location, userId);
-
-//         res.redirect('/photos/catalog');
-//     } catch (error) {
-//         return res.status(404).render('photos/create', { error: getErrorMessage(error) });
-//     }
-// });
+        res.redirect('/auction/catalog');
+    } catch (error) {
+        return res.status(404).render('auctions/create', { error: getErrorMessage(error),  title, description, category, image, price });
+    }
+});
 
 // router.get('/details/:photoId', async (req, res) => {
 
