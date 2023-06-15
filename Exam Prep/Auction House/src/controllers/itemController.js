@@ -2,6 +2,7 @@ const router = require('express').Router();
 const itemManager = require('../managers/itemManager');
 const { isAuth } = require('../middleswares/authMiddleware');
 const { getErrorMessage } = require('../utils/errorUtils');
+const {getCategory} = require('../utils/viewHelpers');
 
 // TODO change endpoints
 router.get('/catalog', async (req, res) => {
@@ -37,34 +38,33 @@ router.post('/create', isAuth, async (req, res) => {
     }
 });
 
-// router.get('/details/:photoId', async (req, res) => {
+router.get('/details/:itemId', async (req, res) => {
 
-//     try {
-//         const item = await itemManager.getById(req.params.itemId).populate('comments.user').lean();
-//         if (req.user) {
-//             item.isOwner = req.user._id == item.owner._id;
-//             item.user = true;
-//         }
-//         res.render('photos/details', { item });
+    try {
+        const item = await itemManager.getById(req.params.itemId).populate('author').lean();
+        console.log(item);
+        // if (req.user) {
+        //     item.isOwner = req.user._id == item.owner._id;
+        //     item.user = true;
+        // }
+        res.render('auctions/details', { item });
 
-//     } catch (error) {
-//         res.render('photos/catalog', { error: 'Couldn\'t load details.' });
-//     }
+    } catch (error) {
+        res.render('auctions/browse', { error: 'Couldn\'t load details.' });
+    }
+});
 
+router.get('/edit/:photoId', isAuth, async (req, res) => {
 
-// });
+    try {
+        const item = await itemManager.getById(req.params.itemId).lean();
+        const options = getCategory(item.category);
+        res.render('auctions/edit', { item, options });
+    } catch (error) {
+        res.render('auctions/details', { error: getErrorMessage(error) });
+    }
 
-// router.get('/edit/:photoId', isAuth, async (req, res) => {
-
-//     try {
-//         const item = await itemManager.getById(req.params.itemId).lean();
-
-//         res.render('photos/edit', { item });
-//     } catch (error) {
-//         res.render('photos/details', { error: getErrorMessage(error) });
-//     }
-
-// });
+});
 
 // router.post('/edit/:photoId', isAuth, async (req, res) => {
 //     const itemData = req.body;

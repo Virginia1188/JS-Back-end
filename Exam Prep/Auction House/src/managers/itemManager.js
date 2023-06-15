@@ -3,7 +3,7 @@ const { getErrorMessage } = require('../utils/errorUtils');
 
 
 exports.getAll = () => Item.find();
-exports.getById = (itemId) => Item.findById(itemId).populate('owner');
+exports.getById = (itemId) => Item.findById(itemId).populate('author');
 
 exports.create = ( title, description, category, image, price , author) =>
     Item.create({  title, description, category, image, price , author});
