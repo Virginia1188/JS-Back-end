@@ -54,7 +54,7 @@ router.get('/details/:itemId', async (req, res) => {
             
         }
     
-        res.render('art/details', { item });
+        res.render('home', { item });
 
     } catch (error) {
         

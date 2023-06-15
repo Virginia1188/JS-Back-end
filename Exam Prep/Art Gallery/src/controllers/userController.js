@@ -44,17 +44,23 @@ router.get('/logout', isAuth, (req, res) => {
     res.redirect('/');
 });
 
+router.get('/profile', async (req,res)=>{
+    try {
+        const userId = req.user._id;
+        // const photos = await photoManager.getByOwner(user._id).lean();
+        const user = await userManager.getUserItems(userId).lean();
+        const pubs = user.publications.length > 0 ? false : true;
+        const allPubNames = user.publications.titles.join(', ');
+        res.render('users/profile', { user, pubs, allPubNames});
+    } catch (error) {
+        res.render('users/profile', { error: error.message });
+    }
+});
+
 
 module.exports = router;
 
 // router.get('/profile', async (req, res) => {
-//     try {
-//         const user = req.user;
-//         const photos = await photoManager.getByOwner(user._id).lean();
-//         const noPhotos = photos.length > 0 ? false : true;
-//         res.render('users/profile', { user, photos, noPhotos });
-//     } catch (error) {
-//         res.render('users/profile', { error: error.message });
-//     }
+
 
 // });
