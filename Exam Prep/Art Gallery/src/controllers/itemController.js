@@ -7,6 +7,7 @@ const { getErrorMessage } = require('../utils/errorUtils');
 router.get('/gallery', async (req, res) => {
     try {
         const allItems = await itemManager.getAll().lean();
+        console.log(allItems);
         res.render('art/gallery', { allItems });
     } catch (error) {
         res.render('art/gallery', { error: 'Couldn\'t find photos.' });
@@ -15,39 +16,46 @@ router.get('/gallery', async (req, res) => {
 });
 
 router.get('/create', isAuth, (req, res) => {
-    res.render('photos/create');
+    res.render('art/create');
 });
 
-// router.post('/create', isAuth, async (req, res) => {
+router.post('/create', isAuth, async (req, res) => {
 
-//     try {
-//         // TODO chnage item obj
-//         const { name, image, age, description, location } = req.body;
-//         const userId = req.user._id;
-//         const created = await itemManager.create(name, image, age, description, location, userId);
+    try {
 
-//         res.redirect('/photos/catalog');
-//     } catch (error) {
-//         return res.status(404).render('photos/create', { error: getErrorMessage(error) });
-//     }
-// });
+        const { title, painting, image, authenticity } = req.body;
+        const userId = req.user._id;
+        const created = await itemManager.create(title, painting, image, authenticity, userId);
 
-// router.get('/details/:photoId', async (req, res) => {
+        res.redirect('/art/gallery');
+    } catch (error) {
+        return res.status(404).render('art/create', { error: getErrorMessage(error) });
+    }
+});
 
-//     try {
-//         const item = await itemManager.getById(req.params.itemId).populate('comments.user').lean();
-//         if (req.user) {
-//             item.isOwner = req.user._id == item.owner._id;
-//             item.user = true;
-//         }
-//         res.render('photos/details', { item });
+router.get('/details/:itemId', async (req, res) => {
 
-//     } catch (error) {
-//         res.render('photos/catalog', { error: 'Couldn\'t load details.' });
-//     }
+    try {
+        // TODO shares
+        const item = await itemManager.getById(req.params.itemId).lean();
+        // console.log(item);
+        if (req.user) {
+            if (req.user._id == item.author._id) {
+                item.isOwner = true;
+            }
+
+            item.user = true;
+        }
+    
+        res.render('art/details', { item });
+
+    } catch (error) {
+        console.log(error);
+        res.render('art/details', { error: 'Couldn\'t load details.', error });
+    }
 
 
-// });
+});
 
 // router.get('/edit/:photoId', isAuth, async (req, res) => {
 
