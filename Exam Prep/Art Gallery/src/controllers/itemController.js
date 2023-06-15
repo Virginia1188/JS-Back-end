@@ -14,9 +14,9 @@ router.get('/gallery', async (req, res) => {
 
 });
 
-// router.get('/create', isAuth, (req, res) => {
-//     res.render('photos/create');
-// });
+router.get('/create', isAuth, (req, res) => {
+    res.render('photos/create');
+});
 
 // router.post('/create', isAuth, async (req, res) => {
 
