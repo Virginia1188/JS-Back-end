@@ -28,8 +28,10 @@
                     </p>
 
                     <div class="align-center">
-                        <a class="action" href="/search">Browse Listings</a>
+                        <a class="action" href="/auction/catalog">Browse Listings</a>
+                        {{#if isAuthenticated}}
                         <a class="action" href="/auction/create">Publish Auction</a>
+                        {{/if}}
                     </div>
                 </div>
             </div>

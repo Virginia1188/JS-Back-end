@@ -1,22 +1,26 @@
 const router = require('express').Router();
-const itemManager = require('../managers/photoManager');
+const itemManager = require('../managers/itemManager');
 const { isAuth } = require('../middleswares/authMiddleware');
 const { getErrorMessage } = require('../utils/errorUtils');
 
 // TODO change endpoints
-// router.get('/catalog', async (req, res) => {
-//     try {
-//         const allItems = await itemManager.getAll().lean();
-//         res.render('photos/catalog', { allItems });
-//     } catch (error) {
-//         res.render('photos/catalog', { error: 'Couldn\'t find photos.' });
-//     }
+router.get('/catalog', async (req, res) => {
+    try {
+        const allItems = await itemManager.getAll().lean();
+        let isItem = true;
+        if(allItems.length === 0){
+            isItem = false;
+        }
+        res.render('auctions/browse', { allItems, isItem});
+    } catch (error) {
+        res.render('auctions/browse', { error: 'Couldn\'t find photos.' });
+    }
 
-// });
+});
 
-// router.get('/create', isAuth, (req, res) => {
-//     res.render('photos/create');
-// });
+router.get('/create', isAuth, (req, res) => {
+    res.render('auctions/create');
+});
 
 // router.post('/create', isAuth, async (req, res) => {
 
