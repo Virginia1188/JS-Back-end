@@ -84,15 +84,15 @@ router.post('/edit/:itemId', isAuth, async (req, res) => {
 
 });
 
-// router.get('/delete/:photoId', isAuth, async (req, res) => {
-//     try {
-//         await itemManager.delete(req.params.itemId);
-//         res.redirect('/photos/catalog');
-//     } catch (error) {
-//         res.render('photos/details', { error: 'Couldn\'t delete photo!' });
-//     }
+router.get('/delete/:itemId', isAuth, async (req, res) => {
+    try {
+        await itemManager.delete(req.params.itemId);
+        res.redirect('/art/gallery');
+    } catch (error) {
+        res.render('art/details', { error: 'Couldn\'t delete publication!' });
+    }
 
-// });
+});
 
 // router.post('/post/:photoId', async (req, res) => {
 //     const user = req.user._id;
