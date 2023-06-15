@@ -53,6 +53,7 @@ exports.addPublication = async (itemId, userId) =>{
     }
 };
 
+exports.getUserItems = (userId) => User.find({userId}).populate('publications');
 
 
 
