@@ -7,15 +7,15 @@ exports.findByUsername = (username) => User.findOne({ username });
 exports.findByEmail = (email) => User.findOne({ email });
 
 // TODO check user object and amend if nessecery 
-exports.register = async (username, email, password, repeatPassword) => {
+exports.register = async (email, password, firstName, lastName, repeatPassword) => {
 
-    const existingUser = await User.findOne({ username });
+    const existingUser = await User.findOne({ email });
     if (existingUser) {
         throw new Error('User already exists');
     }
     
     try {
-        await User.create({ username, email, password, repeatPassword });
+        await User.create({ email, password, firstName, lastName, repeatPassword});
     } catch (error) {
         throw new Error(getErrorMessage(error));
     }
@@ -37,7 +37,8 @@ exports.login = async (email, password) => {
     const payload = {
         _id: user._id,
         email: user.email,
-        username: user.username,
+        firstName: user.firstName,
+        lastName: user.lastName
     };
 
     const token = await jwt.sign(payload, dbConfig.SECRET,);
