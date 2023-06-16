@@ -19,13 +19,20 @@ exports.update = async (itemId, itemData) => {
 
 exports.delete = (itemId) => Item.findByIdAndDelete(itemId);
 
-exports.getByOwner = (owner) => Item.find({ owner });
+// exports.getByOwner = (owner) => Item.find({ owner });
 
-exports.addComment = async (itemId, commentData) => {
+exports.addBid = async (itemId, userId, price) => {
     try {
-        const photo = await Item.findById(itemId);
-        photo.comments.push(commentData);
-        return photo.save();
+        const item = await Item.findById(itemId);
+
+        if(item.price < Number(price)){
+            item.bidder = userId;
+            item.price = price;
+        }else{
+            throw new Error('Your bid should ne higher then the price!');
+        }
+        
+        return item.save();
     } catch (error) {
         throw new Error(getErrorMessage(error));
     }

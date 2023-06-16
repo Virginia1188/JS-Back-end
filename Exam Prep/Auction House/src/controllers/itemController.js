@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const itemManager = require('../managers/itemManager');
-const { isAuth } = require('../middleswares/authMiddleware');
+const { isAuth, isUserAuth } = require('../middleswares/authMiddleware');
 const { getErrorMessage } = require('../utils/errorUtils');
 const {getCategory} = require('../utils/viewHelpers');
 
@@ -41,17 +41,24 @@ router.post('/create', isAuth, async (req, res) => {
 router.get('/details/:itemId', async (req, res) => {
 
     try {
-        const item = await itemManager.getById(req.params.itemId).populate('author').lean();
+        const item = await itemManager.getById(req.params.itemId).populate('author').populate('bidder').lean();
         if (req.user) {
+            item.isUser = true;
             item.isOwner = req.user._id == item.author._id ? true: false;
+            if(item.bidder.length !== 0 ){
+                console.log(item.bidder);
+                item.hasBidder = true;
+            }
             
-        }else{
-            item.user = true;
+            if (item.bidder._id == req.user._id){
+                item.isBidder = true;
+            }
         }
+        
         res.render('auctions/details', { item });
 
     } catch (error) {
-        res.render('auctions/browse', { error: 'Couldn\'t load details.' });
+        res.render('auctions/browse', { error: 'Couldn\'t load details.', error });
     }
 });
 
@@ -59,6 +66,10 @@ router.get('/edit/:itemId', isAuth, async (req, res) => {
     
     try {
         const item = await itemManager.getById(req.params.itemId).lean();
+        if(item.bidder.length !== 0){
+            console.log(item.bidder);
+            item.hasBidder = true;
+        }
         const options = getCategory(item.category);
         res.render('auctions/edit', { item, options });
     } catch (error) {
@@ -90,6 +101,24 @@ router.get('/delete/:itemId', isAuth, async (req, res) => {
         res.render('auctions/details', { error: 'Couldn\'t delete photo!' });
     }
 
+});
+
+router.post('/bid/:itemId', async (req,res)=>{
+    const {price} = req.body;
+    console.log(req.body);
+    const userId = req.user._id;
+    const itemId = req.params.itemId;
+    try {
+        await itemManager.addBid(itemId,userId,price);
+        res.redirect(`/auction/details/${itemId}`);
+    } catch (error) {
+        res.render('auctions/details', { error: getErrorMessage(error)});
+    }
+   
+});
+
+router.get('/close', (req,res)=>{
+    res.render('auctions/closed-auctions');
 });
 
 // router.post('/post/:photoId', async (req, res) => {

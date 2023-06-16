@@ -31,3 +31,10 @@ exports.isAuth = (req, res, next) => {
     }
     next();
 };
+
+exports.isUserAuth = (req, res, next) => {
+    if (req.user) {
+        res.redirect('/');
+    }
+    next();
+};

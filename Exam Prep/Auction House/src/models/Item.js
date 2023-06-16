@@ -40,10 +40,10 @@ const itemSchema = new mongoose.Schema({
         type: mongoose.Types.ObjectId,
         ref: 'User',
     },
-    bidder: [{
+    bidder: {
         type: mongoose.Types.ObjectId,
         ref: 'User',
-    }],
+    },
 
 
 

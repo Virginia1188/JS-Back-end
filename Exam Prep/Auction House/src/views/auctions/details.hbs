@@ -35,19 +35,40 @@
                         <div>
                             Current price: $<strong>{{item.price}}</strong>
                         </div>
-
+                        {{#if item.isUser}}
+                        {{#unless item.isOwner}}
                         <!-- If current user can place a bid -->
+                        {{#unless item.isBidder}}
                         <form class="vertical" method="post" action="/auction/bid/{{item._id}}">
-                            <label><span>Bid amount</span><input type="number" name="bidAmount"></label>
+                            <label><span>Bid amount</span><input type="number" name="price"></label>
                             <input class="action" type="submit" value="Place bid">
                         </form>
 
                         <!-- If current user is the bidder -->
+                        {{else}}
                         <div>
                             You are currently the <strong>highest bidder</strong> for this auction
                         </div>
-
+                        {{/unless}}
+                        {{/unless}}
+                        {{/if}}
                     </div>
+
+                    {{#if item.isOwner}}
+                    <div>
+                        <!-- If there is a bidder -->
+                        {{#if item.hasBidder}}
+                        Bid by <strong>{{item.bidder.firstName}} {{item.bidder.lastName}}</strong>
+
+                        <!-- # Bonus: If there is a bidder -->
+                        <a class="action pad-med cta" href="/auction/close">Close Auction</a>
+
+                        <!-- If there are no bids -->
+                        {{else}}
+                        No bids
+                        {{/if}}
+                    </div>
+                    {{/if}}
 
                 </div>
             </div>
