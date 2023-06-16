@@ -2,7 +2,7 @@
 
     {{#if error}}
     <div class="error-box">
-       <p>{{error}}</p>
+        <p>{{error}}</p>
     </div>
     {{/if}}
 
@@ -13,7 +13,7 @@
 
         <div class="item padded align-center">
 
-            <form class="layout left large" method="POST" >
+            <form class="layout left large" method="POST">
 
                 <div class="col aligned">
                     <label>
@@ -23,7 +23,8 @@
                         <span>Category</span>
                         <select name="category">
                             {{#each options}}
-                            <option value="{{value}}" {{#if selected}} selected {{/if}}>{{title}}</option>
+                            <option value="{{value}}" {{#if selected}}selected{{/if}}>{{title}}</option>
+                            {{/each}}
                             {{!-- <option value="vehicles">Vehicles</option>
                             <option value="furniture">Furniture</option>
                             <option value="electronics">Electronics</option>

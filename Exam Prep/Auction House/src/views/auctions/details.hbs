@@ -2,7 +2,7 @@
 
     {{#if error}}
     <div class="error-box">
-       <p>{{error}}</p>
+        <p>{{error}}</p>
     </div>
     {{/if}}
 
@@ -11,6 +11,12 @@
 
         <h1 class="item">
             {{item.title}}
+            {{#if item.isOwner}}
+            <div class="f-right">
+                <a class="action pad-small f-left" href="/auction/edit/{{item._id}}">Edit</a>
+                <a class="action pad-small f-left" href="/auction/delete/{{item._id}}">Delete</a>
+            </div>
+            {{/if}}
         </h1>
         <div class="item padded">
 

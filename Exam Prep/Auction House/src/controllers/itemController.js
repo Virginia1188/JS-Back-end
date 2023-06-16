@@ -42,11 +42,12 @@ router.get('/details/:itemId', async (req, res) => {
 
     try {
         const item = await itemManager.getById(req.params.itemId).populate('author').lean();
-        console.log(item);
-        // if (req.user) {
-        //     item.isOwner = req.user._id == item.owner._id;
-        //     item.user = true;
-        // }
+        if (req.user) {
+            item.isOwner = req.user._id == item.author._id ? true: false;
+            
+        }else{
+            item.user = true;
+        }
         res.render('auctions/details', { item });
 
     } catch (error) {
@@ -54,41 +55,42 @@ router.get('/details/:itemId', async (req, res) => {
     }
 });
 
-router.get('/edit/:photoId', isAuth, async (req, res) => {
-
+router.get('/edit/:itemId', isAuth, async (req, res) => {
+    
     try {
         const item = await itemManager.getById(req.params.itemId).lean();
         const options = getCategory(item.category);
         res.render('auctions/edit', { item, options });
     } catch (error) {
-        res.render('auctions/details', { error: getErrorMessage(error) });
+        const item = await itemManager.getById(req.params.itemId).lean();
+        res.render('auctions/details', { error: getErrorMessage(error), item});
     }
 
 });
 
-// router.post('/edit/:photoId', isAuth, async (req, res) => {
-//     const itemData = req.body;
-//     const itemId = req.params.itemId;
+router.post('/edit/:itemId', isAuth, async (req, res) => {
+    const itemData = req.body;
+    const itemId = req.params.itemId;
 
-//     try {
-//         await itemManager.update(itemId, itemData);
-//         res.redirect(`/photos/details/${itemId}`);
+    try {
+        await itemManager.update(itemId, itemData);
+        res.redirect(`/auction/details/${itemId}`);
 
-//     } catch (error) {
-//         res.render('photos/edit', { error: getErrorMessage(error), itemData: itemData });
-//     }
+    } catch (error) {
+        res.render('auctions/edit', { error: getErrorMessage(error), itemData: itemData });
+    }
 
-// });
+});
 
-// router.get('/delete/:photoId', isAuth, async (req, res) => {
-//     try {
-//         await itemManager.delete(req.params.itemId);
-//         res.redirect('/photos/catalog');
-//     } catch (error) {
-//         res.render('photos/details', { error: 'Couldn\'t delete photo!' });
-//     }
+router.get('/delete/:itemId', isAuth, async (req, res) => {
+    try {
+        await itemManager.delete(req.params.itemId);
+        res.redirect('/auction/catalog');
+    } catch (error) {
+        res.render('auctions/details', { error: 'Couldn\'t delete photo!' });
+    }
 
-// });
+});
 
 // router.post('/post/:photoId', async (req, res) => {
 //     const user = req.user._id;
