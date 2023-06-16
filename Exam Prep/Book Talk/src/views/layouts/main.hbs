@@ -12,6 +12,13 @@
 </head>
 
 <body>
+    {{#if error}}
+    <div>
+        <div class="errorContainer">
+            <p>{{error}}</p>
+        </div>
+    </div> 
+    {{/if}}
 
     <header class="header">
 
@@ -20,12 +27,15 @@
                 <a href="/">Home</a>
                 <a href="/books/catalog">Catalog</a>
                 <!--Only for logged user-->
+                {{#if isAuthenticated}}
                 <a href="/users/profile">Profile</a>
                 <a href="/books/create">Create Review</a>
                 <a href="/users/logout">Logout</a>
                 <!--Only for guest-->
+                {{else}}
                 <a href="/users/login">Login</a>
                 <a href="/users/register">Register</a>
+                {{/if}}
             </nav>
         </div>
 

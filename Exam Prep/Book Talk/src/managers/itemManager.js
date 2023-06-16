@@ -5,10 +5,20 @@ const { getErrorMessage } = require('../utils/errorUtils');
 exports.getAll = () => Item.find();
 exports.getById = (itemId) => Item.findById(itemId).populate('author');
 
-exports.create = ( title, description, category, image, price , author) =>
-    Item.create({  title, description, category, image, price , author});
+exports.create = ( title, author, image, review, genre, stars , owner) =>
+    Item.create({  title, author, image, review, genre, stars , owner});
 
-exports.update = async (itemId, itemData) => {
+exports.updateWishList = async (itemId, userId) => {
+    try {
+        const updated = await Item.findById(itemId);
+        updated.wishingList.push(userId);
+        return updated.save();
+    } catch (error) {
+        throw new Error(getErrorMessage(error));
+    }
+};
+
+exports.updated = async (itemId, itemData) => {
     try {
         const updated = await Item.findByIdAndUpdate(itemId, itemData, { runValidators: true });
         return updated;
@@ -19,17 +29,14 @@ exports.update = async (itemId, itemData) => {
 
 exports.delete = (itemId) => Item.findByIdAndDelete(itemId);
 
-// exports.getByOwner = (owner) => Item.find({ owner });
 
-exports.addBid = async (itemId, userId, price) => {
+exports.hasWished = async (itemId, userId) => {
     try {
         const item = await Item.findById(itemId);
 
-        if(item.price < Number(price)){
-            item.bidder = userId;
-            item.price = price;
-        }else{
-            throw new Error('Your bid should ne higher then the price!');
+        if(item.wishingList.includes(userId)){
+            item.isWished = true;
+           
         }
         
         return item.save();
@@ -38,6 +45,3 @@ exports.addBid = async (itemId, userId, price) => {
     }
 };
 
-exports.closeAuction = (userId, itemId) =>{
-    
-};

@@ -4,80 +4,50 @@ const itemSchema = new mongoose.Schema({
     title: {
         type: String,
         required: [true, 'Title is required!'],
-        minLength: [4, 'Title is too Short!'],
+        minLength: [2, 'Title is too short!'],
     },
-    description: {
+    author: {
         type: String,
-        maxLength: [200, 'Description is to long!']
-    },
-    category: {
-        type: String,
-        required: [true, 'Category is required!'],
-        validate: {
-            validator: (value) => {
-                const validValues = ['vehicles', 'estate', 'electronics', 'furniture', 'other'];
-                const index = validValues.findIndex(v => v.toLocaleLowerCase() === value.toLocaleLowerCase());
-                if (index !== -1) {
-                    return validValues[index];
-                }
-
-                return false;
-            }
-        },
+        required: [true, 'Author is required!'],
+        minLength: [5, 'Author is too short!'],
     },
     image: {
         type: String,
-    },
-    price:{
-        type: Number,
-        required: [true, 'Price is required'],
+        required: [true, 'Image is required!'],
         validate: {
-            validator: (value) => value > 0,
-            message: 'The price must be a positive number!',
+            validator: (value) => /^https?:\/\//gi.test(value),
+            message: 'The Image URL must start with http:// or https://',
+        }
+    },
+    review: {
+        type: String,
+        required: [true, 'Review is required!'],
+        minLength: [10, 'Review is too short!'],
+    },
+    genre: {
+        type: String,
+        required: [true, 'Genre is required!'],
+        minLength: [3, 'Genre is too short!'],
+    },
+    stars:{
+        type: Number,
+        required: [true, 'Stars is required'],
+        validate: {
+            validator: (value) => value > 0 && value < 6,
+            message: 'Stars must be between 1 and 5!',
         },
     },
-    author: {
+    owner: {
         type: mongoose.Types.ObjectId,
         ref: 'User',
     },
-    bidder: {
+    wishingList: [{
         type: mongoose.Types.ObjectId,
         ref: 'User',
-    },
+    }],
 
-
-
-    // payment: {
-    //     type: String,
-    //     required: [true, 'Payment metod is required'],
-    //     validate: {
-    //         validator: (value) => {
-    //             const validValues = ['Crypto-Wallet', 'Credit-Card', 'Debit-Card', 'PayPal'];
-    //             const index = validValues.findIndex(v => v.toLocaleLowerCase() === value.toLocaleLowerCase());
-    //             if (index !== -1) {
-    //                 return validValues[index];
-    //             }
-
-    //             return false;
-    //         }
-    //     },
-    // },
-
-    // comments: [
-    //     {
-    //         user: {
-    //             type: mongoose.Types.ObjectId,
-    //             required: true,
-    //             ref: 'User'
-    //         },
-    //         comment: {
-    //             type: String,
-    //             required: [true, 'Comment is required!']
-    //         }
-    //     }
-    // ],
 });
 
-const Item = mongoose.model('Photo', itemSchema);
+const Item = mongoose.model('Item', itemSchema);
 
 module.exports = Item;
