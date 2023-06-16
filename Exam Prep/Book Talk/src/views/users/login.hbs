@@ -1,17 +1,12 @@
-<main>
-    <!-- In case of error, you should display div with class "errorContainer" -->
-    <!-- You can choose to display the first error or all of them (error message/s in your opinion) -->
+<section class="login-form-container">
 
-
-    <div class="login-box">
-        <h1>Login</h1>
-        <form method="POST">
-            <label>Email</label>
-            <input type="text" name="email" placeholder="Email..">
-            <label>Password</label>
-            <input type="password" name="password" placeholder="Password..">
-            <input type="submit" value="Submit">
-        </form>
-        <p>Not have an account? <a href="#">Register here</a></p>
-    </div>
-</main>
+    <form method="POST">
+        <h3>Login</h3>
+        <label>Email</label>
+        <input type="email" name="email" class="box" id="">
+        <label>Password</label>
+        <input type="password" name="password" class="box" id="">
+        <input type="submit" value="Login" class="btn">
+        <p>Don't have an account ? <a href="/users/register">Create one</a></p>
+    </form>
+</section>
