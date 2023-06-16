@@ -1,49 +1,40 @@
 const mongoose = require('mongoose');
 
 const itemSchema = new mongoose.Schema({
-    title: {
+    name: {
         type: String,
-        required: [true, 'Title is required!'],
-        minLength: [4, 'Title is too Short!'],
+        required: [true, 'Name is required!'],
+        unique: [true, 'Name already exists!']
+        // minLength: [4, 'Title is too short!'],
     },
-    description: {
+    city: {
         type: String,
-        maxLength: [200, 'Description is to long!']
+        required: [true, 'City is required!'],
+        // maxLength: [200, 'Description is to long!']
     },
-    category: {
-        type: String,
+    freeRooms: {
+        type: Number,
         required: [true, 'Category is required!'],
         validate: {
-            validator: (value) => {
-                const validValues = ['vehicles', 'estate', 'electronics', 'furniture', 'other'];
-                const index = validValues.findIndex(v => v.toLocaleLowerCase() === value.toLocaleLowerCase());
-                if (index !== -1) {
-                    return validValues[index];
-                }
-
-                return false;
-            }
+            validator: (value) => value > 0 && value <= 101,
+            message: 'Free rooms must be between 1 and 100!',
         },
     },
     image: {
         type: String,
+        required: [true, 'Image is required!'],
     },
-    price:{
-        type: Number,
-        required: [true, 'Price is required'],
-        validate: {
-            validator: (value) => value > 0,
-            message: 'The price must be a positive number!',
-        },
-    },
-    author: {
+
+    owner: {
         type: mongoose.Types.ObjectId,
         ref: 'User',
     },
-    bidder: {
+    usersBooking: [{
         type: mongoose.Types.ObjectId,
         ref: 'User',
-    },
+        required: [true, 'Owner is required!']
+    }],
+
 
 
 
@@ -78,6 +69,6 @@ const itemSchema = new mongoose.Schema({
     // ],
 });
 
-const Item = mongoose.model('Photo', itemSchema);
+const Item = mongoose.model('Item', itemSchema);
 
 module.exports = Item;

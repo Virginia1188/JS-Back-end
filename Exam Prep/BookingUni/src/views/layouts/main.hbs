@@ -3,45 +3,49 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home Page - Crypto Web</title>
-    <link rel="stylesheet" href="/css/styles.css">
+    <title>BookingUni</title>
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 
 <body>
-    <header class="header">
-        <nav>
-            <img src="/images/logo.png" class="logo">
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="#">All Crypto</a></li>
-                <li><a href="#">Search</a></li>
-                {{#if isAuthenticated}}
-                <li><a href="#">Create Offer</a></li>
-                <li><a href="/auth/logout">Logout</a></li>
-                {{else}}
-                <li><a href="/auth/login">Login</a></li>
-                <li><a href="/auth/register">Register</a></li>
-                {{/if}}
 
-            </ul>
-        </nav>
-    </header>
-
-    {{#if error}}
-    <div>
-        <div class="errorContainer">
-            <p>{{error}}</p>
+    <div id="container">
+        <div>
+            <div class="notification loadingBox">
+                Loading …
+            </div>
+            <div class="notification infoBox">
+                <span>Info</span>
+            </div>
+            {{#if error}}
+            <div class="notification errorBox">
+                <span>{{error}}</span>
+            </div>
+            {{/if}}
         </div>
+        <nav>
+            <div class="left-container">
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/hotel/create">Add +</a></li>
+                    {{#unless isAuthenticated}}
+                    <li><a href="/users/login">Login</a></li>
+                    <li><a href="/users/register">Register</a></li>  
+                    {{/unless}} 
+                </ul>
+            </div>
+            {{#if isAuthenticated}}
+            <div class="right-container">
+                <a href="/users/profile" class="log-out">{{name}}</a>
+                <a href="/users/logout" class="log-out">Logout</a>
+            </div>
+            {{/if}}
+        </nav>
+
+        {{{body}}}
+
+        <footer>@SoftUni - JS Back-end - BookingUni 2020</footer>
     </div>
-    {{/if}}
-
-    {{{body}}}
-
-    <footer>
-        <p>Back-End 2022</p>
-    </footer>
 
 </body>
 
