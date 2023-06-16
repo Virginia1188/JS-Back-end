@@ -4,13 +4,13 @@ const itemSchema = new mongoose.Schema({
     name: {
         type: String,
         required: [true, 'Name is required!'],
-        unique: [true, 'Name already exists!']
-        // minLength: [4, 'Title is too short!'],
+        unique: [true, 'Name already exists!'],
+        minLength: [4, 'Title is too short!'],
     },
     city: {
         type: String,
         required: [true, 'City is required!'],
-        // maxLength: [200, 'Description is to long!']
+        mixLength: [3, 'City is to short!']
     },
     freeRooms: {
         type: Number,
@@ -23,16 +23,21 @@ const itemSchema = new mongoose.Schema({
     image: {
         type: String,
         required: [true, 'Image is required!'],
+        validate: {
+            validator: (value) => /^https?:\/\//gi.test(value),
+            message: 'The Image URL must start with http:// or https://',
+        }
     },
 
     owner: {
         type: mongoose.Types.ObjectId,
         ref: 'User',
+        required: [true, 'Owner is required!']
     },
     usersBooking: [{
         type: mongoose.Types.ObjectId,
         ref: 'User',
-        required: [true, 'Owner is required!']
+        
     }],
 
 

@@ -5,6 +5,8 @@ const userSchema = new mongoose.Schema({
     username: {
         type: String,
         required: [true, 'Username is required'],
+        minLength: [5, 'Username is too short!'],
+
         unique: true,
         
     },
@@ -12,7 +14,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Email is required'],
         unique: true,
-        // match: [/[A-Za-z]+@[A-Za-z]+.[A-Za-z]+/gi, 'Invalid email format!'],
+        // validate: {
+        //     validator: (value) => /[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]+/gi.test(value),
+        //     message: 'Invalid email address!'
+        // },
     },
     password: {
         type: String,
