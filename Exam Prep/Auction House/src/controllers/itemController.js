@@ -117,8 +117,9 @@ router.post('/bid/:itemId', async (req,res)=>{
    
 });
 
-router.get('/close', (req,res)=>{
-    res.render('auctions/closed-auctions');
+router.get('/close/:itemId', (req,res)=>{
+    
+    res.redirect('auctions/closed-auctions');
 });
 
 // router.post('/post/:photoId', async (req, res) => {

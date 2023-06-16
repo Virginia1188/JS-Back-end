@@ -37,3 +37,7 @@ exports.addBid = async (itemId, userId, price) => {
         throw new Error(getErrorMessage(error));
     }
 };
+
+exports.closeAuction = (userId, itemId) =>{
+    
+};
