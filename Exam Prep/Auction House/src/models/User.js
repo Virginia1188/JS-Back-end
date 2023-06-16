@@ -28,6 +28,12 @@ const userSchema = new mongoose.Schema({
         required: [true, 'Last name is required!'],
         minLength: [1, 'Last name is too short!'],
     },
+    closed: [
+        {
+            type: mongoose.Types.ObjectId,
+            ref: 'Item',
+        }
+    ]
 
 
 });
