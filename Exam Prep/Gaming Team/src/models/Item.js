@@ -1,34 +1,44 @@
 const mongoose = require('mongoose');
 
 const itemSchema = new mongoose.Schema({
-    title: {
+    name: {
         type: String,
-        required: [true, 'Title is required!'],
-        minLength: [4, 'Title is too Short!'],
+        required: [true, 'Name is required!'],
+        minLength: [4, 'Name is too Short!'],
     },
     description: {
         type: String,
-        maxLength: [200, 'Description is to long!']
+        required: [true, 'Description is required!'],
+        minLength: [10, 'Description is to short!']
     },
-    category: {
+    genre: {
         type: String,
-        required: [true, 'Category is required!'],
+        required: [true, 'Genre is required!'],
+        maxLength: [2, 'Genre is to short!']
+    },
+    platform: {
+        type: String,
+        required: [true, 'Platform is required!'],
         validate: {
             validator: (value) => {
-                const validValues = ['vehicles', 'estate', 'electronics', 'furniture', 'other'];
+                const validValues = ['PC', 'Nintendo', 'PS4', 'PS5', 'XBOX'];
                 const index = validValues.findIndex(v => v.toLocaleLowerCase() === value.toLocaleLowerCase());
                 if (index !== -1) {
                     return validValues[index];
                 }
-
                 return false;
             }
         },
     },
     image: {
         type: String,
+        required: [true, 'Image is required!'],
+        validate: {
+            validator: (value) => /^https?:\/\//gi.test(value),
+            message: ' Image URL must start with http:// or https://',
+        }
     },
-    price:{
+    price: {
         type: Number,
         required: [true, 'Price is required'],
         validate: {
@@ -36,46 +46,18 @@ const itemSchema = new mongoose.Schema({
             message: 'The price must be a positive number!',
         },
     },
-    author: {
+    owner: {
         type: mongoose.Types.ObjectId,
         ref: 'User',
     },
-    bidder: {
-        type: mongoose.Types.ObjectId,
-        ref: 'User',
-    },
+    bougthBy: [
+        {
+            type: mongoose.Types.ObjectId,
+            ref: 'User',
+        }
+    ],
 
 
-
-    // payment: {
-    //     type: String,
-    //     required: [true, 'Payment metod is required'],
-    //     validate: {
-    //         validator: (value) => {
-    //             const validValues = ['Crypto-Wallet', 'Credit-Card', 'Debit-Card', 'PayPal'];
-    //             const index = validValues.findIndex(v => v.toLocaleLowerCase() === value.toLocaleLowerCase());
-    //             if (index !== -1) {
-    //                 return validValues[index];
-    //             }
-
-    //             return false;
-    //         }
-    //     },
-    // },
-
-    // comments: [
-    //     {
-    //         user: {
-    //             type: mongoose.Types.ObjectId,
-    //             required: true,
-    //             ref: 'User'
-    //         },
-    //         comment: {
-    //             type: String,
-    //             required: [true, 'Comment is required!']
-    //         }
-    //     }
-    // ],
 });
 
 const Item = mongoose.model('Item', itemSchema);

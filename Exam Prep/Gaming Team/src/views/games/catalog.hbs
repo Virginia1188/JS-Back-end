@@ -1,0 +1,17 @@
+<main id="catalog">
+    <section class="game-market">
+        <h1>Game Trade Code</h1>
+        {{#if allItems.isItem}}
+        <div class="offer-list">
+            {{#each allItems}}
+            {{>gameCard}}
+            {{/each}}
+        </div>
+
+        {{else}}
+        <div class="no-offer">
+            <p>There are no game offers found!</p>
+        </div>
+        {{/if}}
+    </section>
+</main>

@@ -3,10 +3,10 @@ const { getErrorMessage } = require('../utils/errorUtils');
 
 
 exports.getAll = () => Item.find();
-exports.getById = (itemId) => Item.findById(itemId).populate('author');
+exports.getById = (itemId) => Item.findById(itemId);
 
-exports.create = ( title, description, category, image, price , author) =>
-    Item.create({  title, description, category, image, price , author});
+exports.create = ( platform, name, image, price, genre, description , owner) =>
+    Item.create({  platform, name, image, price, genre, description , owner});
 
 exports.update = async (itemId, itemData) => {
     try {
@@ -17,27 +17,38 @@ exports.update = async (itemId, itemData) => {
     }
 };
 
+exports.search = async (name, platform) => {
+    let items = await Item.find().lean();
+    if(name === '' && platform ===''){
+        console.log(items);
+        return items;
+    }else{
+        if(name){
+            items = items.filter(offer => offer.name.toLocaleLowerCase().includes(name.toLocaleLowerCase()));
+           }
+           if(platform){
+            items = items.filter(offer => offer.platform.toLocaleLowerCase() == platform.toLocaleLowerCase());
+           }
+           return items;
+    }
+
+};
+
 exports.delete = (itemId) => Item.findByIdAndDelete(itemId);
 
 // exports.getByOwner = (owner) => Item.find({ owner });
 
-exports.addBid = async (itemId, userId, price) => {
+exports.buy = async (itemId, userId) => {
     try {
         const item = await Item.findById(itemId);
-
-        if(item.price < Number(price)){
-            item.bidder = userId;
-            item.price = price;
-        }else{
-            throw new Error('Your bid should ne higher then the price!');
-        }
-        
+        // console.log(item);
+        item.bougthBy.push(userId);
         return item.save();
     } catch (error) {
         throw new Error(getErrorMessage(error));
     }
 };
 
-exports.closeAuction = (userId, itemId) =>{
+// exports.closeAuction = (userId, itemId) =>{
     
-};
+// };

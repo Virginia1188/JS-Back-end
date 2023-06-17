@@ -1,17 +1,16 @@
 
 exports.getCategory = function (option) {
-    const titles = ['Vehicles',
-        'Real Estate',
-        'Electronics',
-        'Furniture',
-        'Other',
-        
+    const titles = ['PC',
+        'Nintendo',
+        'PS4',
+        'PS5',
+        'XBOX', 
     ];
 
     const options = titles.map((title, index) => ({
         title: title,
-        value: title.split(' ').join('-').toLocaleLowerCase(),
-        selected: title.split(' ').join('-').toLocaleLowerCase() == option,
+        value: title,
+        selected: title.toLocaleLowerCase() == option.toLocaleLowerCase(),
     }));
 
     return options;
