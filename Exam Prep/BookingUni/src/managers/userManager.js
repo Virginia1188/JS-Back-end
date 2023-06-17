@@ -4,7 +4,7 @@ const dbConfig = require('../config/dbConfig');
 const {getErrorMessage} = require('../utils/errorUtils');
 
 exports.findByUsername = (username) => User.findOne({ username });
-exports.findByEmail = (email) => User.findOne({ email });
+exports.findById = (userId) => User.findById(userId).populate('bookedHotels');
 
 // TODO check user object and amend if nessecery 
 exports.register = async (username, email, password, repeatPassword) => {

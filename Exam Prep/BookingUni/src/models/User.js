@@ -14,10 +14,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Email is required'],
         unique: true,
-        // validate: {
-        //     validator: (value) => /[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]+/gi.test(value),
-        //     message: 'Invalid email address!'
-        // },
+        validate: {
+            validator: (value) => /[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]+/gi.test(value),
+            message: 'Invalid email address!'
+        },
     },
     password: {
         type: String,

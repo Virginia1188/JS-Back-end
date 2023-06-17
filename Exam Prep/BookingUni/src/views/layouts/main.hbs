@@ -27,7 +27,9 @@
             <div class="left-container">
                 <ul>
                     <li><a href="/">Home</a></li>
+                    {{#if isAuthenticated}}
                     <li><a href="/hotel/create">Add +</a></li>
+                    {{/if}}
                     {{#unless isAuthenticated}}
                     <li><a href="/users/login">Login</a></li>
                     <li><a href="/users/register">Register</a></li>  

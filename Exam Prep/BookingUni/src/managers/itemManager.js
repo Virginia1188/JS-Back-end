@@ -19,7 +19,6 @@ exports.update = async (itemId, item) => {
 
 exports.delete = (itemId) => Item.findByIdAndDelete(itemId);
 
-// exports.getByOwner = (owner) => Item.find({ owner });
 
 exports.addBooking = async (itemId, userId) => {
     try {

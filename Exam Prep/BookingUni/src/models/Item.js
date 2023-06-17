@@ -41,37 +41,6 @@ const itemSchema = new mongoose.Schema({
     }],
 
 
-
-
-    // payment: {
-    //     type: String,
-    //     required: [true, 'Payment metod is required'],
-    //     validate: {
-    //         validator: (value) => {
-    //             const validValues = ['Crypto-Wallet', 'Credit-Card', 'Debit-Card', 'PayPal'];
-    //             const index = validValues.findIndex(v => v.toLocaleLowerCase() === value.toLocaleLowerCase());
-    //             if (index !== -1) {
-    //                 return validValues[index];
-    //             }
-
-    //             return false;
-    //         }
-    //     },
-    // },
-
-    // comments: [
-    //     {
-    //         user: {
-    //             type: mongoose.Types.ObjectId,
-    //             required: true,
-    //             ref: 'User'
-    //         },
-    //         comment: {
-    //             type: String,
-    //             required: [true, 'Comment is required!']
-    //         }
-    //     }
-    // ],
 });
 
 const Item = mongoose.model('Item', itemSchema);

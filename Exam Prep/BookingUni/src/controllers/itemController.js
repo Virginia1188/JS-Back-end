@@ -95,47 +95,13 @@ router.get('/book/:itemId', async (req, res) => {
         await userManager.addBooking(userId, itemId);
         const item = await itemManager.getById(itemId).lean();
 
-        res.redirect(`/hotel/details/${itemId}`);
+        res.render('hotel/details', {item});
     } catch (error) {
         const item = await itemManager.getById(itemId).lean();
         res.render('hotel/details', {error: error.message, item});
     }
-    // add booking to user
-    // redirect to the same page
+
 });
 
-// router.post('/bid/:itemId', async (req,res)=>{
-//     const {price} = req.body;
-//     console.log(req.body);
-//     const userId = req.user._id;
-//     const itemId = req.params.itemId;
-//     try {
-//         await itemManager.addBid(itemId,userId,price);
-//         res.redirect(`/auction/details/${itemId}`);
-//     } catch (error) {
-//         res.render('auctions/details', { error: getErrorMessage(error)});
-//     }
-
-// });
-
-// router.get('/close/:itemId', (req,res)=>{
-
-//     res.redirect('auctions/closed-auctions');
-// });
-
-// router.post('/post/:photoId', async (req, res) => {
-//     const user = req.user._id;
-//     const { comment } = req.body;
-//     const itemId = req.params.itemId;
-//     console.log({user, comment});
-
-//     try {
-//         await itemManager.addComment(itemId, { user, comment });
-//         res.redirect(`/photos/details/${itemId}`);
-//     } catch (error) {
-//         res.render('photos/details', { error: getErrorMessage(error) });
-//     }
-
-// });
 
 module.exports = router;
