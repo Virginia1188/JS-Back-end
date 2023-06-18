@@ -1,0 +1,69 @@
+<main>
+
+    <section id="details-page">
+
+        <div class="main_card">
+            <div class="card_left">
+                <div class="card_datails">
+
+                    <h1>Title: {{item.title}}</h1>
+                    <h3>Created by an author: {{item.author.firstName}} {{item.author.lastName}}</h3>
+                    <div class="card_animal">
+                        <p class="card-keyword">Keyword: {{item.keyword}}</p>
+                        <p class="card-location">Location: {{item.location}}</p>
+                        <p class="card-date">Date: {{item.date}}</p>
+                    </div>
+
+                    <p class="disc">{{item.description}}</p>
+
+                    <!-- If there is no registered user, do not display buttons-->
+                    {{#if item.isUser}}
+                    <div class="social-btn">
+                        <!-- Only for registered user and author of the post -->
+                        {{#if item.isOwner}}
+                        <a href="/posts/edit/{{item._id}}" class="edit-btn">Edit</a>
+                        <a href="/posts/delete/{{item._id}}" class="del-btn">Delete</a>
+                        <!-- logged in users, who have not yet voted-->
+                        {{else}}
+                        {{#if item.hasVoted}}
+                        <p class="thanks-for-vote">Thanks For Voting</p>
+                        {{else}}
+                        <a href="/posts/vote-up/{{item._id}}" class="vote-up">UpVote +1</a>
+                        <a href="/posts/vote-down/{{item._id}}" class="vote-down">DownVote -1</a>
+                        {{/if}}
+                        
+                        {{/if}}
+                    </div>
+                    {{/if}}
+                </div>
+            </div>
+            <div class="card_right">
+                <img src="{{item.image}}" alt="image">
+            </div>
+        </div>
+
+    </section>
+
+    <section id="votes">
+        <div class="vote-info">
+            <div class="card_left">
+                <div class="card_datails">
+                    <h1>Votes</h1>
+                    <div class="card_vote">
+                        <!-- Show the rating of votes, if there are no votes yet, the number must be 0. -->
+                        <p class="PV">Total rating of votes: {{item.rating}}</p>
+                    </div>
+                    {{#if item.hasRating}}
+                    <!-- If there are already people who have cast their vote for the post, separate their emails with a comma and a space ", " -->
+                     <p class="disc">People who voted for the post - {{result}}</p>
+                    {{else}}
+                    <!-- If not display: -->
+                    <p class="disc">People who voted for the post - No one has voted yet.</p>
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+    </section>
+  
+
+</main>

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 function getFirstError(error){
-    const errors = Object.keys(error.errors).map(x => error.errors[x].message);
+    const errors = Object.keys(error.errors).map(x => error.errors[0].message);
     return errors[0];
 }
 

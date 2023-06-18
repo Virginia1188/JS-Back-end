@@ -8,7 +8,7 @@ const { authentication } = require('./middleswares/authMiddleware');
 router.use(authentication);
 router.use(homeController);
 router.use('/users', userController);
-router.use('', itemController);
+router.use('/posts', itemController);
 
 router.get('*', (req,res)=>{
     res.redirect('/404');

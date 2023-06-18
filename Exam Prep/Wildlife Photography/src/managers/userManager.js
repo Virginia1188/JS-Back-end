@@ -4,18 +4,18 @@ const dbConfig = require('../config/dbConfig');
 const {getErrorMessage} = require('../utils/errorUtils');
 
 exports.findByUsername = (username) => User.findOne({ username });
-exports.findByEmail = (email) => User.findOne({ email });
+exports.findByEmail = (email) => User.findOne({ email }).populate('myPosts');
 
 // TODO check user object and amend if nessecery 
-exports.register = async (username, email, password, repeatPassword) => {
+exports.register = async (firstName, lastName, email, password, repeatPassword) => {
 
-    const existingUser = await User.findOne({ username });
+    const existingUser = await User.findOne({ email });
     if (existingUser) {
         throw new Error('User already exists');
     }
     
     try {
-        await User.create({ username, email, password, repeatPassword });
+        await User.create({ firstName, lastName, email, password, repeatPassword });
     } catch (error) {
         throw new Error(getErrorMessage(error));
     }
@@ -44,6 +44,20 @@ exports.login = async (email, password) => {
 
     return token;
 };
+
+exports.addPost = async (userId, itemId) => {
+    try {
+        const user = await User.findById(userId);
+        user.myPosts.push(itemId);
+        console.log(user);
+        return user.save();
+    } catch (error) {
+        throw new Error('Couldn\'t add the post');
+    }
+
+};
+
+exports.findById = (userId) => User.findById(userId);
 
 
 

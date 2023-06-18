@@ -5,8 +5,8 @@ const { getErrorMessage } = require('../utils/errorUtils');
 exports.getAll = () => Item.find();
 exports.getById = (itemId) => Item.findById(itemId).populate('author');
 
-exports.create = ( title, description, category, image, price , author) =>
-    Item.create({  title, description, category, image, price , author});
+exports.create = ( title, keyword, location, date, image, description , author) =>
+    Item.create({ title, keyword, location, date, image, description , author});
 
 exports.update = async (itemId, itemData) => {
     try {
@@ -21,17 +21,21 @@ exports.delete = (itemId) => Item.findByIdAndDelete(itemId);
 
 // exports.getByOwner = (owner) => Item.find({ owner });
 
-exports.addBid = async (itemId, userId, price) => {
+exports.upVote = async (itemId, userId) => {
     try {
         const item = await Item.findById(itemId);
-
-        if(item.price < Number(price)){
-            item.bidder = userId;
-            item.price = price;
-        }else{
-            throw new Error('Your bid should ne higher then the price!');
-        }
-        
+        item.votes.push(userId);
+        item.rating += 1;        
+        return item.save();
+    } catch (error) {
+        throw new Error(getErrorMessage(error));
+    }
+};
+exports.downVote = async (itemId, userId) => {
+    try {
+        const item = await Item.findById(itemId);
+        item.votes.push(userId);
+        item.rating -=1;        
         return item.save();
     } catch (error) {
         throw new Error(getErrorMessage(error));
